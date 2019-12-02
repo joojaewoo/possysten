@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -57,6 +58,16 @@ public class GUI_refund extends javax.swing.JFrame {
         Refund_button = new javax.swing.JButton();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jDateChooser1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooser1PropertyChange(evt);
+            }
+        });
+        jDateChooser2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooser2PropertyChange(evt);
+            }
+        });
 
         Bill_Title.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Bill_Title.setText("영수증\n");
@@ -235,23 +246,45 @@ public class GUI_refund extends javax.swing.JFrame {
 
     private void Refund_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Refund_buttonActionPerformed
         // TODO add your handling code here:
-    	 updateProductDB();
-         removeBill();
+    	String barcode = Bill_Barcode.getText();
+    	if(barcode.contentEquals("")) {
+    		JOptionPane.showMessageDialog(null, "영수증 바코드를 입력하세요.");
+    	}
+    	else if(isExistBill(barcode)){
+    		JOptionPane.showMessageDialog(null, "영수증 바코드를 확인하세요.");
+    	}
+    	else {
+         if(removeBill()&&updateProductDB()) {
+         JOptionPane.showMessageDialog(null, "환불 완료");
          resetRefundWindow();
-
+         }
+         else {
+        	 JOptionPane.showMessageDialog(null, "Error");	 
+         }
+    	}
         
     }//GEN-LAST:event_Refund_buttonActionPerformed
-    public void removeBill() {
+    public boolean removeBill() {
         // 환불된 영수증 삭제
         String billbarcode = Bill_Barcode.getText();
-        db.delete_B(billbarcode);
+        if(db.delete_B(billbarcode))
+        	return true;
+        return false;
     }
-    
-    public void updateProductDB() {
+    public boolean isExistBill(String Barcode) {
+    	ArrayList<bill> a=db.search_B(Barcode);
+    	if(a.isEmpty())
+    		return true;
+    	else
+    		return false;
+    }
+    public boolean updateProductDB() {
         //환불된 상품 db 업데이트
         for(int i = 0 ; i < contents.length; i++) {
-        db.update_S(contents[i][0],Integer.parseInt(contents[i][1]));
+        if(!db.update_S(contents[i][0],Integer.parseInt(contents[i][1])))
+        	return false;
         }
+        return true;
     }
     
     public void resetRefundWindow() {
@@ -267,7 +300,16 @@ public class GUI_refund extends javax.swing.JFrame {
     }
     private void Bill_Barcode_InputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Bill_Barcode_InputActionPerformed
         // TODO add your handling code here:
-        Bill(Bill_Barcode.getText());
+    	String barcode = Bill_Barcode.getText();
+    	if(barcode.contentEquals("")) {
+    		JOptionPane.showMessageDialog(null, "영수증 바코드를 입력하세요.");
+    	}
+    	else if(isExistBill(barcode)){
+    		JOptionPane.showMessageDialog(null, "영수증 바코드를 확인하세요.");
+    	}
+    	else {
+    		Bill(Bill_Barcode.getText());	
+    	}
     }//GEN-LAST:event_Bill_Barcode_InputActionPerformed
 
     public void Bill(String barcode) {
@@ -355,6 +397,10 @@ public class GUI_refund extends javax.swing.JFrame {
         for (int i = 0; i < dates.size(); i++) {
             System.out.println(dates.get(i));
             ArrayList<sale> a=db.Bill_L(dates.get(i));
+            if(a.isEmpty()) {
+            	JOptionPane.showMessageDialog(null, "조회된 영수증이 없습니다");
+            	break;
+            }
             for(int j=0;j<a.size();j++) {
             String S=a.get(j).getCategory();
             String result[] = {S.substring(0,8), S.substring(8), Integer.toString(a.get(j).getPrice())+"원"};
@@ -363,7 +409,34 @@ public class GUI_refund extends javax.swing.JFrame {
             }
         }
     }
-
+    private void jDateChooser1PropertyChange(java.beans.PropertyChangeEvent evt) {                                             
+        // TODO add your handling code here:
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        Date start_date = jDateChooser1.getDate();
+        String a = format.format(start_date);
+        int aa = Integer.parseInt(a);
+        Date end_date = jDateChooser2.getDate();
+        String b = format.format(end_date);
+        int bb = Integer.parseInt(b);
+        if(aa > bb) {
+            JOptionPane.showMessageDialog(null, "날짜를 다시 선택하세요");
+            jDateChooser1.setDate(end_date);
+        }
+    }
+    private void jDateChooser2PropertyChange(java.beans.PropertyChangeEvent evt) {                                             
+        // TODO add your handling code here:
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        Date start_date = jDateChooser1.getDate();
+        String a = format.format(start_date);
+        int aa = Integer.parseInt(a);
+        Date end_date = jDateChooser2.getDate();
+        String b = format.format(end_date);
+        int bb = Integer.parseInt(b);
+        if(aa > bb) {
+            JOptionPane.showMessageDialog(null, "날짜를 다시 선택하세요");
+            jDateChooser2.setDate(start_date);
+        }
+    }
     /**
      * @param args the command line arguments
      */

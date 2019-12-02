@@ -1,11 +1,8 @@
 package pos;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
@@ -14,15 +11,11 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
-
 import com.toedter.calendar.JDateChooser;
-
-import jdk.internal.net.http.common.Demand;
-
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Date;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,10 +23,16 @@ import java.util.Calendar;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 
-public class total_price extends JFrame {
+public class total extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTable table;
+	JDateChooser dateChooser = new JDateChooser();
+	JDateChooser dateChooser_1 = new JDateChooser();
+	//private JTable table;
 
 	/**
 	 * Launch the application.
@@ -49,27 +48,34 @@ public class total_price extends JFrame {
             }
          }
       });*/
-		new total_price();
+		new total();
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public total_price() {
+	public total() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(200, 200, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		Dimension d= new Dimension(400,400);
-		final JDateChooser dateChooser = new JDateChooser();
 		/*   dateChooser.getCalendarButton().addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
          }
       });*/
-
-		final JDateChooser dateChooser_1 = new JDateChooser();
-
+		
+		dateChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooser1PropertyChange(evt);
+            }
+        });
+        dateChooser_1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooser2PropertyChange(evt);
+            }
+        });
 		final JButton btnOk = new JButton("OK");
 		final JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(d);
@@ -127,7 +133,6 @@ public class total_price extends JFrame {
 				Date end_date = (Date) dateChooser_1.getDate();
 				String inputEndDate = sdf.format(end_date);
 
-				int sum[] = null;
 				Date startDate = null;
 				try {
 					startDate = (Date) sdf.parse(inputStartDate);
@@ -161,11 +166,12 @@ public class total_price extends JFrame {
 					currentDate = (Date) c.getTime();
 					ArrayList<sale> a = db.profit(x);
 					cal(tps, a);
-
+					
 					for(int i = 0; i < 7; i++)
 						total_tps[i] += tps[i];
 
 					Object []tmp = {x, tps[0], tps[1], tps[2], tps[3], tps[4],tps[5],tps[6]};
+					if(tps[6]!=0) 
 					model.addRow(tmp);
 					// sum[] = total_price
 
@@ -173,6 +179,9 @@ public class total_price extends JFrame {
 				}
 
 				Object []tmp = {"총합", total_tps[0], total_tps[1], total_tps[2], total_tps[3], total_tps[4],total_tps[5],total_tps[6]};
+				if(total_tps[6]==0)
+					JOptionPane.showMessageDialog(null, "조회된 매출이 없습니다.");
+				else
 				model.addRow(tmp);
 				/*for(int i = 0; i < dates.size(); i++) {
                //db.profit(dates[i]);
@@ -208,4 +217,32 @@ public class total_price extends JFrame {
 		setVisible(true);
 
 	}
+	private void jDateChooser1PropertyChange(java.beans.PropertyChangeEvent evt) {                                             
+        // TODO add your handling code here:
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        Date start_date = dateChooser.getDate();
+        String a = format.format(start_date);
+        int aa = Integer.parseInt(a);
+        Date end_date = dateChooser_1.getDate();
+        String b = format.format(end_date);
+        int bb = Integer.parseInt(b);
+        if(aa > bb) {
+            JOptionPane.showMessageDialog(null, "날짜를 다시 선택하세요");
+            dateChooser.setDate(end_date);
+        }
+    }
+    private void jDateChooser2PropertyChange(java.beans.PropertyChangeEvent evt) {                                             
+        // TODO add your handling code here:
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        Date start_date = dateChooser.getDate();
+        String a = format.format(start_date);
+        int aa = Integer.parseInt(a);
+        Date end_date = dateChooser_1.getDate();
+        String b = format.format(end_date);
+        int bb = Integer.parseInt(b);
+        if(aa > bb) {
+            JOptionPane.showMessageDialog(null, "날짜를 다시 선택하세요");
+            dateChooser_1.setDate(start_date);
+        }
+    }
 }

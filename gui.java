@@ -3,7 +3,6 @@ package pos;
 public class gui {
 	static LoginView loginView;
 	public gui() {
-		//new POS_Frame();
 		this.loginView = new LoginView();
     	this.loginView.setMain(this);
 	}

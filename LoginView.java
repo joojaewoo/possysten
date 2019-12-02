@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 public class LoginView extends JFrame{
     private gui lo;
     private gui testFrm;
+    JFrame L=new JFrame();
    
     private JButton btnLogin;
     private JButton btnInit;
@@ -28,11 +29,11 @@ public class LoginView extends JFrame{
     public LoginView() {
         // setting
     	setEnable(-1);
-        setTitle("login");
-        setSize(280, 150);
-        setResizable(false);
-        setLocation(800, 450);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        L.setTitle("login");
+        L.setSize(280, 150);
+        L.setResizable(false);
+        L.setLocation(800, 450);
+        L.setDefaultCloseOperation(EXIT_ON_CLOSE);
        
         // panel
         JPanel panel = new JPanel();
@@ -40,10 +41,10 @@ public class LoginView extends JFrame{
        
        
         // add
-        add(panel);
+        L.add(panel);
        
         // visiible
-        setVisible(true);
+        L.setVisible(true);
     }
    
     public void placeLoginPanel(JPanel panel){
@@ -100,7 +101,14 @@ public class LoginView extends JFrame{
            
             // 로그인 성공이라면 매니져창 뛰우기
             if(isLogin()){
-                gui.show(); // 메인창 메소드를 이용해 창뛰우기
+            	if(POS_Frame.isJ()) {
+            		L.dispose();
+            		gui.show(); // 메인창 메소드를 이용해 창뛰우기
+            	}
+            	else {
+            		dispose();
+            		L.dispose();
+            	}
             }                  
         }else{
             JOptionPane.showMessageDialog(null, "Faild");
@@ -112,12 +120,10 @@ public class LoginView extends JFrame{
     public void setMain(gui lo) {
         this.lo = lo;
     }
-   
- 
     public boolean isLogin() {     
         return bLoginCheck;
     }
-    public void setEnable(int a) {
+    public static void setEnable(int a) {
     	Enable=a;
     }
     public int getEnable() {

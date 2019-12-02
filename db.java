@@ -14,7 +14,7 @@ public class db {
             String url = "jdbc:mysql://localhost/pos";
             conn = DriverManager.getConnection(url, "root", "1234");
             stmt = (Statement) conn.createStatement();
-           // System.out.println("연결 성공");
+            System.out.println("연결 성공");
             }
         catch(ClassNotFoundException e){
             System.out.println("드라이버 로딩 실패");
@@ -80,6 +80,24 @@ public class db {
 			e.printStackTrace();
 		}
 			return false;
+	 }
+	 static public boolean chk_P(String name) {
+		 String sql= "select count(*) AS count from product where Product_Name = '"+name+"'";
+		 try {
+				rs=stmt.executeQuery(sql);
+				int cnt=0;
+				while(rs.next()) {
+				cnt=rs.getInt("count");
+				}
+				if(cnt<1)
+					return false;
+				return true;
+				
+			} catch (SQLException e) {
+				e.printStackTrace(System.out);
+				e.printStackTrace();
+			}
+		 return false;
 	 }
 	 static public boolean insert_P(String barcode,String name,String price,String stock,String category) { //물건추가
 		 String sql= "insert into product values ('"+barcode+"','"+name+"','"+price+"','"+stock+"','"+category+"')";

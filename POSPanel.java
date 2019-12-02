@@ -2,7 +2,8 @@ package pos;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Calendar;
+import java.util.*;
+import java.text.SimpleDateFormat;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -21,15 +22,15 @@ public class POSPanel extends JPanel {
    String CNT; // 수량
    String MONEY; // 받은돈
    JButton[] SBtn = new JButton[4];
-   JButton[] menuBtn = new JButton[5];
-   JButton[] KBtn = new JButton[11];
+   JButton[] menuBtn = new JButton[6];
+   JButton[] KBtn = new JButton[12];
    JButton[] miniBtn = new JButton[2];
-   String[] menu = { "재고정보", "환불", " 매출액", "재고추가", "상품추가" };      //menuBtn
+   String[] menu = { "재고정보", "영수증", " 매출액", "재고추가", "상품추가","로그아웃" };      //menuBtn
    String[] Str1 = { "선택취소", "전체취소", "결제" };   //SBtn
    String[] Str2 = { "확인", "확인" };      //miniBtn
    String[] ColName = { "상품 이름", "수량","종류", "가격" };   
    String[] ColName2 = {"상품 이름", "가격"};
-   String[] keyPad = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "등록" };      //KBtn
+   String[] keyPad = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "등록","지움"};      //KBtn
    String[] T=new String[4];
    String[] T2=new String[2];
    JLabel label1 = new JLabel("바코드");   
@@ -71,7 +72,7 @@ public class POSPanel extends JPanel {
    class menuBtn extends JPanel {      //왼쪽 상단 메뉴 버튼
       menuBtn() {
          setBackground(Color.WHITE);
-         setLayout(new GridLayout(5, 1, 5, 3));
+         setLayout(new GridLayout(6, 1, 5, 4));
          for (int i = 0; i < menu.length; i++) {
             menuBtn[i] = new JButton(menu[i]);
             menuBtn[i].setFont(new Font("맑은 고딕", Font.BOLD, 15));
@@ -83,7 +84,7 @@ public class POSPanel extends JPanel {
    class KeyBtn extends JPanel {      //키패드
       KeyBtn() {
          setBackground(Color.WHITE);
-         setLayout(new GridLayout(4, 3, 3, 3));
+         setLayout(new GridLayout(5, 3, 3, 3));
 
          for (int i = 0; i < keyPad.length; i++) {
             KBtn[i] = new JButton(keyPad[i]);
@@ -221,30 +222,18 @@ public class POSPanel extends JPanel {
          public void actionPerformed(ActionEvent e) {
             JButton k_one = (JButton) e.getSource();
             if (a == 1) {
-               if (BARCODE == null)
-                  BARCODE = "1";
-               else {
-                  BARCODE = BARCODE + "1";
-               }
-               bcode.setText(BARCODE);
-               bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 2) {
-               if (CNT == null)
-                  CNT = "1";
-               else {
-                  CNT = CNT + "1";
-               }
-               cnt.setText(CNT);
-               cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 3) {
-               if (MONEY == null)
-                  MONEY = "1";
-               else {
-                  MONEY = MONEY + "1";
-               }
-               tf2.setText(MONEY);
-               tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            }
+                bcode.setText(bcode.getText()+"1");
+                bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 2) {
+                cnt.setText(cnt.getText()+"1");
+                cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 3) {
+                tf2.setText(tf2.getText()+"1");
+                tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             }
+             else {
+             	JOptionPane.showMessageDialog(null, "선택하세요");
+             }
          }
       });
       
@@ -253,30 +242,18 @@ public class POSPanel extends JPanel {
          public void actionPerformed(ActionEvent e) {
             JButton k_two = (JButton) e.getSource();
             if (a == 1) {
-               if (BARCODE == null)
-                  BARCODE = "2";
-               else {
-                  BARCODE = BARCODE + "2";
-               }
-               bcode.setText(BARCODE);
-               bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 2) {
-               if (CNT == null)
-                  CNT = "2";
-               else {
-                  CNT = CNT + "2";
-               }
-               cnt.setText(CNT);
-               cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 3) {
-               if (MONEY == null)
-                  MONEY = "2";
-               else {
-                  MONEY = MONEY + "2";
-               }
-               tf2.setText(MONEY);
-               tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            }
+                bcode.setText(bcode.getText()+"2");
+                bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 2) {
+                cnt.setText(cnt.getText()+"2");
+                cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 3) {
+                tf2.setText(tf2.getText()+"2");
+                tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             }
+             else {
+             	JOptionPane.showMessageDialog(null, "선택하세요");
+             }
          }
       });
 
@@ -285,30 +262,18 @@ public class POSPanel extends JPanel {
          public void actionPerformed(ActionEvent e) {
             JButton k_three = (JButton) e.getSource();
             if (a == 1) {
-               if (BARCODE == null)
-                  BARCODE = "3";
-               else {
-                  BARCODE = BARCODE + "3";
-               }
-               bcode.setText(BARCODE);
-               bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 2) {
-               if (CNT == null)
-                  CNT = "3";
-               else {
-                  CNT = CNT + "3";
-               }
-               cnt.setText(CNT);
-               cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 3) {
-               if (MONEY == null)
-                  MONEY = "3";
-               else {
-                  MONEY = MONEY + "3";
-               }
-               tf2.setText(MONEY);
-               tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            }
+                bcode.setText(bcode.getText()+"3");
+                bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 2) {
+                cnt.setText(cnt.getText()+"3");
+                cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 3) {
+                tf2.setText(tf2.getText()+"3");
+                tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             }
+             else {
+             	JOptionPane.showMessageDialog(null, "선택하세요");
+             }
          }
       });
 
@@ -317,30 +282,18 @@ public class POSPanel extends JPanel {
          public void actionPerformed(ActionEvent e) {
             JButton k_four = (JButton) e.getSource();
             if (a == 1) {
-               if (BARCODE == null)
-                  BARCODE = "4";
-               else {
-                  BARCODE = BARCODE + "4";
-               }
-               bcode.setText(BARCODE);
-               bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 2) {
-               if (CNT == null)
-                  CNT = "4";
-               else {
-                  CNT = CNT + "4";
-               }
-               cnt.setText(CNT);
-               cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 3) {
-               if (MONEY == null)
-                  MONEY = "4";
-               else {
-                  MONEY = MONEY + "4";
-               }
-               tf2.setText(MONEY);
-               tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            }
+                bcode.setText(bcode.getText()+"4");
+                bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 2) {
+                cnt.setText(cnt.getText()+"4");
+                cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 3) {
+                tf2.setText(tf2.getText()+"4");
+                tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             }
+             else {
+             	JOptionPane.showMessageDialog(null, "선택하세요");
+             }
          }
       });
 
@@ -349,30 +302,18 @@ public class POSPanel extends JPanel {
          public void actionPerformed(ActionEvent e) {
             JButton k_five = (JButton) e.getSource();
             if (a == 1) {
-               if (BARCODE == null)
-                  BARCODE = "5";
-               else {
-                  BARCODE = BARCODE + "5";
-               }
-               bcode.setText(BARCODE);
-               bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 2) {
-               if (CNT == null)
-                  CNT = "5";
-               else {
-                  CNT = CNT + "5";
-               }
-               cnt.setText(CNT);
-               cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 3) {
-               if (MONEY == null)
-                  MONEY = "5";
-               else {
-                  MONEY = MONEY + "5";
-               }
-               tf2.setText(MONEY);
-               tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            }
+                bcode.setText(bcode.getText()+"5");
+                bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 2) {
+                cnt.setText(cnt.getText()+"5");
+                cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 3) {
+                tf2.setText(tf2.getText()+"5");
+                tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             }
+             else {
+             	JOptionPane.showMessageDialog(null, "선택하세요");
+             }
          }
       });
 
@@ -381,30 +322,18 @@ public class POSPanel extends JPanel {
          public void actionPerformed(ActionEvent e) {
             JButton k_six = (JButton) e.getSource();
             if (a == 1) {
-               if (BARCODE == null)
-                  BARCODE = "6";
-               else {
-                  BARCODE = BARCODE + "6";
-               }
-               bcode.setText(BARCODE);
-               bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 2) {
-               if (CNT == null)
-                  CNT = "6";
-               else {
-                  CNT = CNT + "6";
-               }
-               cnt.setText(CNT);
-               cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 3) {
-               if (MONEY == null)
-                  MONEY = "6";
-               else {
-                  MONEY = MONEY + "6";
-               }
-               tf2.setText(MONEY);
-               tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            }
+                bcode.setText(bcode.getText()+"6");
+                bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 2) {
+                cnt.setText(cnt.getText()+"6");
+                cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 3) {
+                tf2.setText(tf2.getText()+"6");
+                tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             }
+             else {
+             	JOptionPane.showMessageDialog(null, "선택하세요");
+             }
          }
       });
 
@@ -413,30 +342,18 @@ public class POSPanel extends JPanel {
          public void actionPerformed(ActionEvent e) {
             JButton k_seven = (JButton) e.getSource();
             if (a == 1) {
-               if (BARCODE == null)
-                  BARCODE = "7";
-               else {
-                  BARCODE = BARCODE + "7";
-               }
-               bcode.setText(BARCODE);
-               bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 2) {
-               if (CNT == null)
-                  CNT = "7";
-               else {
-                  CNT = CNT + "7";
-               }
-               cnt.setText(CNT);
-               cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 3) {
-               if (MONEY == null)
-                  MONEY = "7";
-               else {
-                  MONEY = MONEY + "7";
-               }
-               tf2.setText(MONEY);
-               tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            }
+                bcode.setText(bcode.getText()+"7");
+                bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 2) {
+                cnt.setText(cnt.getText()+"7");
+                cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 3) {
+                tf2.setText(tf2.getText()+"7");
+                tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             }
+             else {
+             	JOptionPane.showMessageDialog(null, "선택하세요");
+             }
          }
       });
 
@@ -445,30 +362,18 @@ public class POSPanel extends JPanel {
          public void actionPerformed(ActionEvent e) {
             JButton k_eight = (JButton) e.getSource();
             if (a == 1) {
-               if (BARCODE == null)
-                  BARCODE = "8";
-               else {
-                  BARCODE = BARCODE + "8";
-               }
-               bcode.setText(BARCODE);
-               bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 2) {
-               if (CNT == null)
-                  CNT = "8";
-               else {
-                  CNT = CNT + "8";
-               }
-               cnt.setText(CNT);
-               cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 3) {
-               if (MONEY == null)
-                  MONEY = "8";
-               else {
-                  MONEY = MONEY + "8";
-               }
-               tf2.setText(MONEY);
-               tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            }
+                bcode.setText(bcode.getText()+"8");
+                bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 2) {
+                cnt.setText(cnt.getText()+"8");
+                cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 3) {
+                tf2.setText(tf2.getText()+"8");
+                tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             }
+             else {
+             	JOptionPane.showMessageDialog(null, "선택하세요");
+             }
          }
       });
 
@@ -477,30 +382,18 @@ public class POSPanel extends JPanel {
          public void actionPerformed(ActionEvent e) {
             JButton k_nine = (JButton) e.getSource();
             if (a == 1) {
-               if (BARCODE == null)
-                  BARCODE = "9";
-               else {
-                  BARCODE = BARCODE + "9";
-               }
-               bcode.setText(BARCODE);
-               bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 2) {
-               if (CNT == null)
-                  CNT = "9";
-               else {
-                  CNT = CNT + "9";
-               }
-               cnt.setText(CNT);
-               cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            } else if (a == 3) {
-               if (MONEY == null)
-                  MONEY = "9";
-               else {
-                  MONEY = MONEY + "9";
-               }
-               tf2.setText(MONEY);
-               tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
-            }
+                bcode.setText(bcode.getText()+"9");
+                bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 2) {
+                cnt.setText(cnt.getText()+"9");
+                cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             } else if (a == 3) {
+                tf2.setText(tf2.getText()+"9");
+                tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
+             }
+             else {
+             	JOptionPane.showMessageDialog(null, "선택하세요");
+             }
          }
       });
 
@@ -509,29 +402,17 @@ public class POSPanel extends JPanel {
          public void actionPerformed(ActionEvent e) {
             JButton k_zero = (JButton) e.getSource();
             if (a == 1) {
-               if (BARCODE == null)
-                  BARCODE = "0";
-               else {
-                  BARCODE = BARCODE + "0";
-               }
-               bcode.setText(BARCODE);
+               bcode.setText(bcode.getText()+"0");
                bcode.setFont(new Font("맑은고딕", Font.BOLD, 20));
             } else if (a == 2) {
-               if (CNT == null)
-                  CNT = "0";
-               else {
-                  CNT = CNT + "0";
-               }
-               cnt.setText(CNT);
+               cnt.setText(cnt.getText()+"0");
                cnt.setFont(new Font("맑은고딕", Font.BOLD, 20));
             } else if (a == 3) {
-               if (MONEY == null)
-                  MONEY = "0";
-               else {
-                  MONEY = MONEY + "0";
-               }
-               tf2.setText(MONEY);
+               tf2.setText(tf2.getText()+"0");
                tf2.setFont(new Font("맑은고딕", Font.BOLD, 20));
+            }
+            else {
+            	JOptionPane.showMessageDialog(null, "선택하세요");
             }
          }
       });
@@ -546,8 +427,49 @@ public class POSPanel extends JPanel {
              tf3.setFont(new Font("맑은고딕", Font.BOLD, 20));
          }
       });
-
-
+      KBtn[11].addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+        	  if(a==1) {
+        		  if(bcode.getText().length()-1>0)
+        			  bcode.setText(bcode.getText().substring(0, bcode.getText().length()-1));
+        		  else
+        			  bcode.setText("");
+        	  }
+        	  else if(a==2) {
+        		  if(cnt.getText().length()-1>0)
+        			  cnt.setText(cnt.getText().substring(0, cnt.getText().length()-1));
+        		  else
+        			  cnt.setText("");
+        	  }
+        	  else if(a==3) {
+        		  if(tf2.getText().length()-1>0)
+        			  tf2.setText(tf2.getText().substring(0, tf2.getText().length()-1));
+        		  else 
+        			  tf2.setText("");
+        	  }
+        	  else {
+        		  JOptionPane.showMessageDialog(null, "선택하세요");
+        	  }
+          }
+       });
+//      KBtn[12].addActionListener(new ActionListener() {
+//          @Override
+//          public void actionPerformed(ActionEvent e) {
+//        	  if(a==1) {
+//        		  bcode.setText("");
+//        	  }
+//        	  else if(a==2) {
+//        		  cnt.setText("");
+//        	  }
+//        	  else if(a==3) {
+//        		  tf2.setText("");
+//        	  }
+//        	  else {
+//        		  JOptionPane.showMessageDialog(null, "선택하세요");
+//        	  }
+//          }
+//       });
 
       menuBtn[0].addActionListener(new ActionListener() {
     		
@@ -568,9 +490,11 @@ menuBtn[2].addActionListener(new ActionListener() {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(LoginView.Enable==1)
-		new total_price();
+		new total();
 		else //관리자 권한 아닐때 메시지 띄우기
-		{}
+		{
+			JOptionPane.showMessageDialog(null, "관리자 권한이 필요합니다");
+		}
 	}
 });
 menuBtn[3].addActionListener(new ActionListener() {
@@ -588,8 +512,17 @@ menuBtn[4].addActionListener(new ActionListener() {
 		new insert_product();
 		else //관리자 권한 아닐때 메시지 띄우기
 		{
-			
+			JOptionPane.showMessageDialog(null, "관리자 권한이 필요합니다");
 		}
+	}
+});
+menuBtn[5].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		System.out.println("로그아웃");
+		LoginView.setEnable(-1);
+		new LoginView();
 	}
 });
 
@@ -613,7 +546,7 @@ menuBtn[4].addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
             int num=Integer.parseInt(cnt.getText());
             if(Integer.parseInt(stock)<num) {
-               
+            	JOptionPane.showMessageDialog(null, "상품의 재고를 초과하였습니다. 재고 : " + stock);
             }
             else {
                T[0]=T2[0];
@@ -636,10 +569,15 @@ menuBtn[4].addActionListener(new ActionListener() {
       SBtn[0].addActionListener(new ActionListener() {   // 선택취소
          @Override
          public void actionPerformed(ActionEvent e) {
+        	if(table.getSelectedRow()>-1) {
             JButton SB = (JButton) e.getSource();
             DefaultTableModel m = (DefaultTableModel) table.getModel();
-            tf1.setText(Integer.toString(Integer.parseInt(tf1.getText())-Integer.parseInt((String)table.getModel().getValueAt(0, 3))));
-            m.removeRow(table.getSelectedRow());
+            sum=Integer.parseInt(tf1.getText())-Integer.parseInt((String)table.getModel().getValueAt(table.getSelectedRow(), 3));
+            tf1.setText(Integer.toString(sum));
+            m.removeRow(table.getSelectedRow());}
+        	else {
+        		JOptionPane.showMessageDialog(null, "선택하세요");	
+        	}
          }
       });
 
@@ -649,6 +587,7 @@ menuBtn[4].addActionListener(new ActionListener() {
             JButton SB = (JButton) e.getSource();
             DefaultTableModel m = (DefaultTableModel) table.getModel();
             m.setRowCount(0);
+            sum=0;
             tf1.setText(String.valueOf(""));
          }
       });
@@ -656,8 +595,10 @@ menuBtn[4].addActionListener(new ActionListener() {
       SBtn[2].addActionListener(new ActionListener() {   // 결제 (물건재고 수정, 영수증 만들기
          @Override
          public void actionPerformed(ActionEvent e) {
-        	 Calendar cal = Calendar.getInstance();
-        	 String date= Integer.toString(cal.get(cal.YEAR))+Integer.toString(cal.get(cal.MONTH)+1)+Integer.toString(cal.get(cal.DATE));
+        	 SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        	 Date d= new Date();
+        	 String date = format.format(d);
+        	 //String date=Integer.toString(cal.get(cal.YEAR))+Integer.toString(cal.get(cal.MONTH)+1)+Integer.toString(cal.get(cal.DATE));
         	int num=db.chk_Bill_num(date);
         	if(num==0)
         		date+="1";

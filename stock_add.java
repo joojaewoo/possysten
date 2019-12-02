@@ -40,8 +40,20 @@ public class stock_add {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				db.update_S(name.getText(),Integer.parseInt(num.getText()));	
-				Jframe.setVisible(false);
+				if(name.getText().contentEquals("")) {
+					JOptionPane.showMessageDialog(null, "상품명을 입력하세요");
+				}
+				else if(num.getText().contentEquals("")) {
+					JOptionPane.showMessageDialog(null, "수량을 입력하세요");
+				}
+				else {
+				if(db.chk_P(name.getText())) {
+					db.update_S(name.getText(),Integer.parseInt(num.getText()));
+					JOptionPane.showMessageDialog(null, "재고추가가 완료되었습니다.");
+					Jframe.setVisible(false);}
+				else
+					JOptionPane.showMessageDialog(null, "상품명을 확인해주세요");
+				}
 			}
 		};
 		button.addActionListener(listener);

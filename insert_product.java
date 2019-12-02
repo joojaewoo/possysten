@@ -47,8 +47,28 @@ public class insert_product {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				db.insert_P(barcode.getText(),name.getText(),price.getText(),stock.getText(),category.getText());
-				Jframe.setVisible(false);
+				if(barcode.getText().contentEquals("")){
+					JOptionPane.showMessageDialog(null, "바코드를 입력하세요");
+				}
+				else if(name.getText().contentEquals("")) {
+					JOptionPane.showMessageDialog(null, "상품명을 입력하세요");
+				}
+				else if(price.getText().contentEquals("")) {
+					JOptionPane.showMessageDialog(null, "가격을 입력하세요");
+				}
+				else if(stock.getText().contentEquals("")) {
+					JOptionPane.showMessageDialog(null, "재고를 입력하세요");
+				}
+				else if(category.getText().contentEquals("")) {
+					JOptionPane.showMessageDialog(null, "종류를 입력하세요");
+				}
+				else {
+					if(db.insert_P(barcode.getText(),name.getText(),price.getText(),stock.getText(),category.getText()))
+						Jframe.setVisible(false);
+					else {
+						JOptionPane.showMessageDialog(null, "Error");
+					}
+				}
 			}
 		};
 		button.addActionListener(listener);
