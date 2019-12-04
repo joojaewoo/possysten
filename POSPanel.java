@@ -25,7 +25,7 @@ public class POSPanel extends JPanel {
    JButton[] menuBtn = new JButton[6];
    JButton[] KBtn = new JButton[12];
    JButton[] miniBtn = new JButton[2];
-   String[] menu = { "재고정보", "영수증", " 매출액", "재고추가", "상품추가","로그아웃" };      //menuBtn
+   String[] menu = { "재고정보", "영수증", " 매출액", "재고추가", "상품추가","사용자변경" };      //menuBtn
    String[] Str1 = { "선택취소", "전체취소", "결제" };   //SBtn
    String[] Str2 = { "확인", "확인" };      //miniBtn
    String[] ColName = { "상품 이름", "수량","종류", "가격" };   
@@ -490,7 +490,7 @@ menuBtn[2].addActionListener(new ActionListener() {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(LoginView.Enable==1)
-		new total();
+		new GUI_profit();
 		else //관리자 권한 아닐때 메시지 띄우기
 		{
 			JOptionPane.showMessageDialog(null, "관리자 권한이 필요합니다");
@@ -501,7 +501,7 @@ menuBtn[3].addActionListener(new ActionListener() {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		new stock_add();
+		new GUI_stock_add();
 	}
 });
 menuBtn[4].addActionListener(new ActionListener() {
@@ -509,7 +509,7 @@ menuBtn[4].addActionListener(new ActionListener() {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(LoginView.Enable==1)
-		new insert_product();
+		new GUI_insert_product();
 		else //관리자 권한 아닐때 메시지 띄우기
 		{
 			JOptionPane.showMessageDialog(null, "관리자 권한이 필요합니다");
@@ -547,6 +547,7 @@ menuBtn[5].addActionListener(new ActionListener() {
             int num=Integer.parseInt(cnt.getText());
             if(Integer.parseInt(stock)<num) {
             	JOptionPane.showMessageDialog(null, "상품의 재고를 초과하였습니다. 재고 : " + stock);
+            	cnt.setText(stock);
             }
             else {
                T[0]=T2[0];

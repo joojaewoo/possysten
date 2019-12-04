@@ -373,6 +373,7 @@ public class GUI_refund extends javax.swing.JFrame {
         String inputEndDate = format.format(end_date);
         Date startDate = null;
         DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel) Search_Result.getModel();
         model.setNumRows(0);
         try {
             startDate = format.parse(inputStartDate);
@@ -394,12 +395,13 @@ public class GUI_refund extends javax.swing.JFrame {
             c.add(Calendar.DAY_OF_MONTH, 1);
             currentDate = (Date) c.getTime();
         }
+        int count=0;
         for (int i = 0; i < dates.size(); i++) {
             System.out.println(dates.get(i));
             ArrayList<sale> a=db.Bill_L(dates.get(i));
-            if(a.isEmpty()) {
-            	JOptionPane.showMessageDialog(null, "조회된 영수증이 없습니다");
-            	break;
+            //a.addAll(db.Bill_L(dates.get(i)));
+            if(!a.isEmpty()) {
+            	count++;
             }
             for(int j=0;j<a.size();j++) {
             String S=a.get(j).getCategory();
@@ -408,6 +410,8 @@ public class GUI_refund extends javax.swing.JFrame {
             model.addRow(result);
             }
         }
+        if(count==0)
+        	JOptionPane.showMessageDialog(null, "조회된 영수증이 없습니다");
     }
     private void jDateChooser1PropertyChange(java.beans.PropertyChangeEvent evt) {                                             
         // TODO add your handling code here:
