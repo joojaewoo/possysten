@@ -6,456 +6,489 @@ import java.util.*;
 import java.text.SimpleDateFormat;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.*;
 
 public class POSPanel extends JPanel {
-   int[] price;
-   int sum = 0;
-   String category="";
-   int a; // a=1 ë°”ì½”ë“œ a=2 ê°œìˆ˜ a=3 ë°›ì€ëˆ
-   JTextField tf1 = new JTextField(30); // ê°€ê²© ì´ì•¡ ì¶œë ¥
-   JTextField tf2 = new JTextField(30); // ë°›ì€ ê¸ˆì•¡ ì…ë ¥
-   JTextField tf3 = new JTextField(30); // ê±°ìŠ¤ë¦„ëˆ
-   JTextField bcode = new JTextField(8); // ë°”ì½”ë“œ ì…ë ¥ì°½
-   JTextField cnt = new JTextField(2); // ìˆ˜ëŸ‰ ì…ë ¥ì°½
-   String BARCODE; // ë°”ì½”ë“œ
-   String CNT; // ìˆ˜ëŸ‰
-   String MONEY; // ë°›ì€ëˆ
-   JButton[] SBtn = new JButton[4];
-   JButton[] menuBtn = new JButton[6];
-   JButton[] KBtn = new JButton[12];
-   JButton[] miniBtn = new JButton[2];
-   String[] menu = { "ì¬ê³ ì •ë³´", "ì˜ìˆ˜ì¦", " ë§¤ì¶œì•¡", "ì¬ê³ ì¶”ê°€", "ìƒí’ˆì¶”ê°€","ì‚¬ìš©ìë³€ê²½" };      //menuBtn
-   String[] Str1 = { "ì„ íƒì·¨ì†Œ", "ì „ì²´ì·¨ì†Œ", "ê²°ì œ" };   //SBtn
-   String[] Str2 = { "í™•ì¸", "í™•ì¸" };      //miniBtn
-   String[] ColName = { "ìƒí’ˆ ì´ë¦„", "ìˆ˜ëŸ‰","ì¢…ë¥˜", "ê°€ê²©" };   
-   String[] ColName2 = {"ìƒí’ˆ ì´ë¦„", "ê°€ê²©"};
-   String[] keyPad = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "ë“±ë¡","ì§€ì›€"};      //KBtn
-   String[] T=new String[4];
-   String[] T2=new String[2];
-   JLabel label1 = new JLabel("ë°”ì½”ë“œ");   
-   JLabel label2 = new JLabel("ìˆ˜ëŸ‰");
-   JLabel total = new JLabel("ì´ ê¸ˆì•¡");
-   JLabel receiveM = new JLabel("ë°›ì€ ê¸ˆì•¡");
-   JLabel cngM = new JLabel("ê±°ìŠ¤ë¦„ëˆ");
-   int count = 1;
-   String stock="";
-   DefaultTableModel model = new DefaultTableModel(new Object[][] {}, ColName);
-   DefaultTableModel model2 = new DefaultTableModel(new Object[][] {}, ColName2);
+	int[] price;
+	int sum = 0;
+	String category = "";
+	int a; // a=1 ¹ÙÄÚµå a=2 °³¼ö a=3 ¹ŞÀºµ·
+	String[] Str1 = { "¼±ÅÃÃë¼Ò", "ÀüÃ¼Ãë¼Ò", "°áÁ¦" }; // SBtn
+	String[] Str2 = { "È®ÀÎ", "È®ÀÎ" }; // miniBtn
 
-   JTable table = new JTable(model);
-   JTable table2 = new JTable(model2);
+	RoundButton[] SBtn = new RoundButton[4];
+	RoundButton[] menuBtn = new RoundButton[6];
+	RoundButton[] KBtn = new RoundButton[12];
+	RoundButton[] miniBtn = new RoundButton[2];
+	int count = 1;
+	String stock = "";
+	String[] ColName = { "»óÇ° ÀÌ¸§", "¼ö·®", "Á¾·ù", "°¡°İ" };
+	String[] menu = { "Àç°íÁ¤º¸", "¿µ¼öÁõ", " ¸ÅÃâ¾×", "Àç°íÃß°¡", "»óÇ°Ãß°¡" }; // menuBtn
+	String[] ColName2 = { "»óÇ° ÀÌ¸§", "°¡°İ" };
+	String[] keyPad = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "µî·Ï", "Áö¿ò" }; // KBtn
+	DefaultTableModel model = new DefaultTableModel(new Object[][] {}, ColName);
+	// DefaultTableModel model2 = new DefaultTableModel(new Object[][] {},
+	// ColName2);
 
-   class Screen extends JPanel {      //ë“±ë¡ëœ ìƒí’ˆ ëª©ë¡
-      Screen() {
-         setBackground(Color.WHITE);
-         DefaultTableModel m1 = (DefaultTableModel) table.getModel();
-         table.setRowHeight(50);
-         table.getTableHeader().setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 15));
-         add(new JScrollPane(table));
-      }
-   }
-   class Information extends JPanel {      //ë°”ì½”ë“œ ì…ë ¥ì‹œ ìƒí’ˆ ì •ë³´ì°½
-      Information() {
-         setBackground(Color.WHITE);
-         DefaultTableModel m2 = (DefaultTableModel) table2.getModel();
-         table2.setRowHeight(50);
-         table2.getTableHeader().setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 15));
-         Dimension d= new Dimension(400,200);
-         JScrollPane s=new JScrollPane(table2);
-         s.setPreferredSize(d);
-         add(s);
-         
-      }
-   }
+	JTable table = new JTable(model);
+	// JTable table2 = new JTable(model2);
 
-   class menuBtn extends JPanel {      //ì™¼ìª½ ìƒë‹¨ ë©”ë‰´ ë²„íŠ¼
-      menuBtn() {
-         setBackground(Color.WHITE);
-         setLayout(new GridLayout(6, 1, 5, 4));
-         for (int i = 0; i < menu.length; i++) {
-            menuBtn[i] = new JButton(menu[i]);
-            menuBtn[i].setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
-            add(menuBtn[i]);
-         }
-      }
-   }
+	class Screen extends JPanel { // µî·ÏµÈ »óÇ° ¸ñ·Ï
+		Screen() {
+			setBackground(Color.WHITE);
+			DefaultTableModel m1 = (DefaultTableModel) table.getModel();
+			table.setRowHeight(50);
+			table.getTableHeader().setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+			add(new JScrollPane(table));
+		}
+	}
+	/*
+	 * class Information extends JPanel { //¹ÙÄÚµå ÀÔ·Â½Ã »óÇ° Á¤º¸Ã¢ Information() {
+	 * setBackground(Color.WHITE); DefaultTableModel m2 = (DefaultTableModel)
+	 * table2.getModel(); table2.setRowHeight(50);
+	 * table2.getTableHeader().setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15)); Dimension
+	 * d= new Dimension(400,200); JScrollPane s=new JScrollPane(table2);
+	 * s.setPreferredSize(d); add(s);
+	 * 
+	 * } }
+	 */
 
-   class KeyBtn extends JPanel {      //í‚¤íŒ¨ë“œ
-      KeyBtn() {
-         setBackground(Color.WHITE);
-         setLayout(new GridLayout(5, 3, 3, 3));
+	class menuBtn extends JPanel { // ¿ŞÂÊ »ó´Ü ¸Ş´º ¹öÆ°
+		menuBtn() {
+			setBackground(Color.WHITE);
+			setLayout(new GridLayout(6, 1, 5, 4));
+			for (int i = 0; i < menu.length; i++) {
+				menuBtn[i] = new RoundButton(menu[i]);
+				menuBtn[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+				add(menuBtn[i]);
+			}
+		}
+	}
 
-         for (int i = 0; i < keyPad.length; i++) {
-            KBtn[i] = new JButton(keyPad[i]);
-            KBtn[i].setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 20));
-            add(KBtn[i]);
-         }
-      }
-   }
+	class KeyBtn extends JPanel { // Å°ÆĞµå
+		KeyBtn() {
+			setBackground(Color.WHITE);
+			setLayout(new GridLayout(5, 3, 3, 3));
 
-   class StrBtn extends JPanel {      //ì„ íƒì·¨ì†Œ, ì „ì²´ì·¨ì†Œ, ê²°ì œ ë²„íŠ¼
-      StrBtn() {
-         setBackground(Color.WHITE);
-         setLayout(new GridLayout(1, 4, 3, 3));
+			for (int i = 0; i < keyPad.length; i++) {
+				KBtn[i] = new RoundButton(keyPad[i]);
+				KBtn[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+				add(KBtn[i]);
+			}
+		}
+	}
 
-         for (int i = 0; i < Str1.length; i++) {
-            SBtn[i] = new JButton(Str1[i]);
-            SBtn[i].setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
-            add(SBtn[i]);
-         }
-      }
-   }
+	class StrBtn extends JPanel { // ¼±ÅÃÃë¼Ò, ÀüÃ¼Ãë¼Ò, °áÁ¦ ¹öÆ°
+		StrBtn() {
+			setBackground(Color.WHITE);
+			setLayout(new GridLayout(1, 4, 3, 3));
 
-   class MiniBtn extends JPanel {      //ë°”ì½”ë“œ ì…ë ¥ì°½, ìˆ˜ëŸ‰ ì…ë ¥ì°½ ì˜† í™•ì¸ë²„íŠ¼
-      MiniBtn() {
-         setBackground(Color.WHITE);
-         setLayout(new GridLayout(2, 1, 3, 3));
-         for (int i = 0; i < Str2.length; i++) {
-            miniBtn[i] = new JButton(Str2[i]);
-            miniBtn[i].setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
-            add(miniBtn[i]);
-         }
-      }
-   }
+			for (int i = 0; i < Str1.length; i++) {
+				SBtn[i] = new RoundButton(Str1[i]);
+				SBtn[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+				add(SBtn[i]);
+			}
+		}
+	}
 
-   public POSPanel() {
-      setLayout(null);
-      setBackground(Color.WHITE);
-      menuBtn Mbtn = new menuBtn();
-      MiniBtn mini = new MiniBtn();
-      KeyBtn kbtn = new KeyBtn();
-      StrBtn sbtn = new StrBtn();
-      Screen sc = new Screen();
-      Information inf = new Information();
-      
-      tf1.setEnabled(false);
-      tf3.setEnabled(false);
-      
-      label1.setSize(70, 30); // ë°”ì½”ë“œ
-      label1.setLocation(730, 30);
-      label1.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 15));
-      add(label1);
+	class MiniBtn extends JPanel { // ¹ÙÄÚµå ÀÔ·ÂÃ¢, ¼ö·® ÀÔ·ÂÃ¢ ¿· È®ÀÎ¹öÆ°
+		MiniBtn() {
+			setBackground(Color.WHITE);
+			setLayout(new GridLayout(2, 1, 3, 3));
+			for (int i = 0; i < Str2.length; i++) {
+				miniBtn[i] = new RoundButton(Str2[i]);
+				miniBtn[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+				add(miniBtn[i]);
+			}
+		}
+	}
 
-      label2.setSize(70, 30); // ìˆ˜ëŸ‰
-      label2.setLocation(730, 65);
-      label2.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 15));
-      add(label2);
+	public POSPanel() {
+		JTextField tf1 = new JTextField(30); // °¡°İ ÃÑ¾× Ãâ·Â
+		JTextField tf2 = new JTextField(30); // ¹ŞÀº ±İ¾× ÀÔ·Â
+		JTextField tf3 = new JTextField(30); // °Å½º¸§µ·
+		JTextField bcode = new JTextField(8); // ¹ÙÄÚµå ÀÔ·ÂÃ¢
+		JTextField cnt = new JTextField(2); // ¼ö·® ÀÔ·ÂÃ¢
+		JTextField p_name = new JTextField(10);
+		JTextField p_price = new JTextField(8);
+		String BARCODE; // ¹ÙÄÚµå
+		String CNT; // ¼ö·®
+		String MONEY; // ¹ŞÀºµ·
+		JPanel jp = new JPanel();
 
-      total.setSize(100, 30);   //ì´ê¸ˆì•¡
-      total.setLocation(250, 480);
-      total.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-      add(total);
+		String[] T = new String[4];
+		String[] T2 = new String[2];
+		JLabel label1 = new JLabel("¹ÙÄÚµå");
+		JLabel label2 = new JLabel("¼ö·®");
+		JLabel total = new JLabel("ÃÑ ±İ¾×");
+		JLabel receiveM = new JLabel("¹ŞÀº ±İ¾×");
+		JLabel cngM = new JLabel("°Å½º¸§µ·");
+		JLabel pdt_name = new JLabel("»óÇ°ÀÌ¸§");
+		JLabel pdt_price = new JLabel("°¡°İ");
+		setLayout(null);
+		setBackground(Color.WHITE);
+		RoundButton loginBtn = new RoundButton("»ç¿ëÀÚ º¯°æ");
+		menuBtn Mbtn = new menuBtn();
+		MiniBtn mini = new MiniBtn();
+		KeyBtn kbtn = new KeyBtn();
+		StrBtn sbtn = new StrBtn();
+		Screen sc = new Screen();
+		// Information inf = new Information();
 
-      receiveM.setSize(100, 30);   //ë°›ì€ ê¸ˆì•¡
-      receiveM.setLocation(250, 525);
-      receiveM.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-      add(receiveM);
+		jp.setSize(400, 150);
+		jp.setLocation(730, 190);
+		jp.setBackground(Color.white);
+		jp.setLayout(new GridLayout(2, 2, 5, 5));
+		jp.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+		jp.setBorder(new TitledBorder(new LineBorder(Color.black, 1), "»óÇ°Á¤º¸"));
+		add(jp);
 
-      cngM.setSize(100, 30);   //ê±°ìŠ¤ë¦„ëˆ
-      cngM.setLocation(250, 570);
-      cngM.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-      add(cngM);
+		label1.setSize(70, 30); // ¹ÙÄÚµå
+		label1.setLocation(730, 100);
+		label1.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		add(label1);
 
-      bcode.setSize(260, 30);      //ë°”ì½”ë“œ ì…ë ¥ì°½
-      bcode.setLocation(800, 30);
-      bcode.addMouseListener(new MouseAdapter() {
-         public void mouseClicked(MouseEvent e) {
-            // TODO Auto-generated method stub
-            a = 1;
-         }
-      });
-      add(bcode);
+		label2.setSize(70, 30); // ¼ö·®
+		label2.setLocation(730, 135);
+		label2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		add(label2);
 
-      cnt.setSize(260, 30);      //ìˆ˜ëŸ‰ ì…ë ¥ì°½
-      cnt.setLocation(800, 65);
-      cnt.addMouseListener(new MouseAdapter() {
-         public void mouseClicked(MouseEvent e) {
-            // TODO Auto-generated method stub
-            a = 2;
-         }
-      });
-      add(cnt);
+		total.setSize(100, 30); // ÃÑ±İ¾×
+		total.setLocation(250, 560);
+		total.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+		add(total);
 
-      tf1.setSize(350, 40);   // ê¸ˆì•¡ë€
-      tf1.setLocation(350, 480);
-      add(tf1);
+		receiveM.setSize(100, 30); // ¹ŞÀº ±İ¾×
+		receiveM.setLocation(250, 605);
+		receiveM.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+		add(receiveM);
 
-      tf2.setSize(350, 40);
-      tf2.setLocation(350, 525);
-      tf2.addMouseListener(new MouseAdapter() {
-         public void mouseClicked(MouseEvent e) {
-            // TODO Auto-generated method stub
-            a = 3;
-         }
-      });
-      add(tf2);
+		cngM.setSize(100, 30); // °Å½º¸§µ·
+		cngM.setLocation(250, 650);
+		cngM.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+		add(cngM);
 
-      tf3.setSize(350, 40);
-      tf3.setLocation(350, 570);
-      add(tf3);
+		bcode.setSize(260, 30); // ¹ÙÄÚµå ÀÔ·ÂÃ¢
+		bcode.setLocation(800, 100);
+		bcode.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		bcode.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				a = 1;
+			}
+		});
+		add(bcode);
 
-      sc.setSize(500, 500);
-      sc.setLocation(225, 20);
-      add(sc);
+		cnt.setSize(260, 30); // ¼ö·® ÀÔ·ÂÃ¢
+		cnt.setLocation(800, 135);
+		cnt.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		cnt.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				a = 2;
+			}
+		});
+		add(cnt);
 
-      inf.setSize(405, 180);
-      inf.setLocation(730, 100);
-      add(inf);
+		tf1.setSize(350, 40); // ±İ¾×¶õ
+		tf1.setLocation(350, 560);
+		tf1.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		add(tf1);
 
-      Mbtn.setSize(150, 350);
-      Mbtn.setLocation(25, 20);
-      add(Mbtn);
+		tf2.setSize(350, 40);
+		tf2.setLocation(350, 605);
+		tf2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		tf2.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				a = 3;
+			}
+		});
+		add(tf2);
 
-      mini.setSize(70, 65);
-      mini.setLocation(1065, 30);
-      add(mini);
+		tf3.setSize(350, 40);
+		tf3.setLocation(350, 650);
+		tf3.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		add(tf3);
 
-      kbtn.setSize(330, 250);
-      kbtn.setLocation(800, 300);
-      add(kbtn);
+		sc.setSize(500, 500);
+		sc.setLocation(225, 100);
+		add(sc);
 
-      sbtn.setSize(330, 70);
-      sbtn.setLocation(800, 580);
-      add(sbtn);
+		/*
+		 * inf.setSize(405, 180); inf.setLocation(730, 100); add(inf);
+		 */
+		pdt_name.setSize(70, 30);
+		pdt_name.setLocation(730, 100);
+		pdt_name.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		pdt_name.setHorizontalAlignment(JLabel.CENTER);
+		jp.add(pdt_name);
 
-      //í‚¤íŒ¨ë“œ 1 ~ 0
-      KBtn[0].addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            JButton k_one = (JButton) e.getSource();
-            if (a == 1) {
-                bcode.setText(bcode.getText()+"1");
-                bcode.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 2) {
-                cnt.setText(cnt.getText()+"1");
-                cnt.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 3) {
-                tf2.setText(tf2.getText()+"1");
-                tf2.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             }
-             else {
-             	JOptionPane.showMessageDialog(null, "ì„ íƒí•˜ì„¸ìš”");
-             }
-         }
-      });
-      
-      KBtn[1].addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            JButton k_two = (JButton) e.getSource();
-            if (a == 1) {
-                bcode.setText(bcode.getText()+"2");
-                bcode.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 2) {
-                cnt.setText(cnt.getText()+"2");
-                cnt.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 3) {
-                tf2.setText(tf2.getText()+"2");
-                tf2.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             }
-             else {
-             	JOptionPane.showMessageDialog(null, "ì„ íƒí•˜ì„¸ìš”");
-             }
-         }
-      });
+		pdt_price.setSize(70, 30);
+		pdt_price.setLocation(730, 180);
+		pdt_price.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		pdt_price.setHorizontalAlignment(JLabel.CENTER);
+		jp.add(pdt_price);
 
-      KBtn[2].addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            JButton k_three = (JButton) e.getSource();
-            if (a == 1) {
-                bcode.setText(bcode.getText()+"3");
-                bcode.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 2) {
-                cnt.setText(cnt.getText()+"3");
-                cnt.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 3) {
-                tf2.setText(tf2.getText()+"3");
-                tf2.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             }
-             else {
-             	JOptionPane.showMessageDialog(null, "ì„ íƒí•˜ì„¸ìš”");
-             }
-         }
-      });
+		p_name.setSize(80, 30);
+		p_name.setHorizontalAlignment(JTextField.CENTER);
+		p_name.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		p_name.setBorder(null);
+		jp.add(p_name);
 
-      KBtn[3].addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            JButton k_four = (JButton) e.getSource();
-            if (a == 1) {
-                bcode.setText(bcode.getText()+"4");
-                bcode.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 2) {
-                cnt.setText(cnt.getText()+"4");
-                cnt.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 3) {
-                tf2.setText(tf2.getText()+"4");
-                tf2.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             }
-             else {
-             	JOptionPane.showMessageDialog(null, "ì„ íƒí•˜ì„¸ìš”");
-             }
-         }
-      });
+		p_price.setSize(80, 30);
+		p_price.setHorizontalAlignment(JTextField.CENTER);
+		p_price.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		p_price.setBorder(null);
+		jp.add(p_price);
+		
+		Mbtn.setSize(150, 380);
+		Mbtn.setLocation(50, 105);
+		add(Mbtn);
 
-      KBtn[4].addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            JButton k_five = (JButton) e.getSource();
-            if (a == 1) {
-                bcode.setText(bcode.getText()+"5");
-                bcode.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 2) {
-                cnt.setText(cnt.getText()+"5");
-                cnt.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 3) {
-                tf2.setText(tf2.getText()+"5");
-                tf2.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             }
-             else {
-             	JOptionPane.showMessageDialog(null, "ì„ íƒí•˜ì„¸ìš”");
-             }
-         }
-      });
+		mini.setSize(70, 65);
+		mini.setLocation(1065, 100);
+		add(mini);
 
-      KBtn[5].addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            JButton k_six = (JButton) e.getSource();
-            if (a == 1) {
-                bcode.setText(bcode.getText()+"6");
-                bcode.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 2) {
-                cnt.setText(cnt.getText()+"6");
-                cnt.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 3) {
-                tf2.setText(tf2.getText()+"6");
-                tf2.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             }
-             else {
-             	JOptionPane.showMessageDialog(null, "ì„ íƒí•˜ì„¸ìš”");
-             }
-         }
-      });
+		kbtn.setSize(400, 260);
+		kbtn.setLocation(730, 360);
+		add(kbtn);
 
-      KBtn[6].addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            JButton k_seven = (JButton) e.getSource();
-            if (a == 1) {
-                bcode.setText(bcode.getText()+"7");
-                bcode.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 2) {
-                cnt.setText(cnt.getText()+"7");
-                cnt.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 3) {
-                tf2.setText(tf2.getText()+"7");
-                tf2.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             }
-             else {
-             	JOptionPane.showMessageDialog(null, "ì„ íƒí•˜ì„¸ìš”");
-             }
-         }
-      });
+		sbtn.setSize(400, 70);
+		sbtn.setLocation(730, 620);
+		add(sbtn);
 
-      KBtn[7].addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            JButton k_eight = (JButton) e.getSource();
-            if (a == 1) {
-                bcode.setText(bcode.getText()+"8");
-                bcode.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 2) {
-                cnt.setText(cnt.getText()+"8");
-                cnt.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 3) {
-                tf2.setText(tf2.getText()+"8");
-                tf2.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             }
-             else {
-             	JOptionPane.showMessageDialog(null, "ì„ íƒí•˜ì„¸ìš”");
-             }
-         }
-      });
+		loginBtn.setSize(120, 60);
+		loginBtn.setLocation(1015, 10);
+		loginBtn.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+		add(loginBtn);
+		
+		// Å°ÆĞµå 1 ~ 0
+		KBtn[0].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RoundButton k_one = (RoundButton) e.getSource();
+				if (a == 1) {
+					bcode.setText(bcode.getText() + "1");
+					bcode.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 2) {
+					cnt.setText(cnt.getText() + "1");
+					cnt.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 3) {
+					tf2.setText(tf2.getText() + "1");
+					tf2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else {
+					JOptionPane.showMessageDialog(null, "¼±ÅÃÇÏ¼¼¿ä");
+				}
+			}
+		});
 
-      KBtn[8].addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            JButton k_nine = (JButton) e.getSource();
-            if (a == 1) {
-                bcode.setText(bcode.getText()+"9");
-                bcode.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 2) {
-                cnt.setText(cnt.getText()+"9");
-                cnt.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             } else if (a == 3) {
-                tf2.setText(tf2.getText()+"9");
-                tf2.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-             }
-             else {
-             	JOptionPane.showMessageDialog(null, "ì„ íƒí•˜ì„¸ìš”");
-             }
-         }
-      });
+		KBtn[1].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RoundButton k_two = (RoundButton) e.getSource();
+				if (a == 1) {
+					bcode.setText(bcode.getText() + "2");
+					bcode.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 2) {
+					cnt.setText(cnt.getText() + "2");
+					cnt.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 3) {
+					tf2.setText(tf2.getText() + "2");
+					tf2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else {
+					JOptionPane.showMessageDialog(null, "¼±ÅÃÇÏ¼¼¿ä");
+				}
+			}
+		});
 
-      KBtn[9].addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            JButton k_zero = (JButton) e.getSource();
-            if (a == 1) {
-               bcode.setText(bcode.getText()+"0");
-               bcode.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-            } else if (a == 2) {
-               cnt.setText(cnt.getText()+"0");
-               cnt.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-            } else if (a == 3) {
-               tf2.setText(tf2.getText()+"0");
-               tf2.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-            }
-            else {
-            	JOptionPane.showMessageDialog(null, "ì„ íƒí•˜ì„¸ìš”");
-            }
-         }
-      });
+		KBtn[2].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RoundButton k_three = (RoundButton) e.getSource();
+				if (a == 1) {
+					bcode.setText(bcode.getText() + "3");
+					bcode.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 2) {
+					cnt.setText(cnt.getText() + "3");
+					cnt.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 3) {
+					tf2.setText(tf2.getText() + "3");
+					tf2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else {
+					JOptionPane.showMessageDialog(null, "¼±ÅÃÇÏ¼¼¿ä");
+				}
+			}
+		});
 
-      // ë“±ë¡
-      KBtn[10].addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-             int change = Integer.valueOf(tf2.getText()) - sum;
-             tf2.setText(tf2.getText());
-             tf3.setText(Integer.toString(change));
-             tf3.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-         }
-      });
-      KBtn[11].addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-        	  if(a==1) {
-        		  if(bcode.getText().length()-1>0)
-        			  bcode.setText(bcode.getText().substring(0, bcode.getText().length()-1));
-        		  else
-        			  bcode.setText("");
-        	  }
-        	  else if(a==2) {
-        		  if(cnt.getText().length()-1>0)
-        			  cnt.setText(cnt.getText().substring(0, cnt.getText().length()-1));
-        		  else
-        			  cnt.setText("");
-        	  }
-        	  else if(a==3) {
-        		  if(tf2.getText().length()-1>0)
-        			  tf2.setText(tf2.getText().substring(0, tf2.getText().length()-1));
-        		  else 
-        			  tf2.setText("");
-        	  }
-        	  else {
-        		  JOptionPane.showMessageDialog(null, "ì„ íƒí•˜ì„¸ìš”");
-        	  }
-          }
-       });
+		KBtn[3].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RoundButton k_four = (RoundButton) e.getSource();
+				if (a == 1) {
+					bcode.setText(bcode.getText() + "4");
+					bcode.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 2) {
+					cnt.setText(cnt.getText() + "4");
+					cnt.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 3) {
+					tf2.setText(tf2.getText() + "4");
+					tf2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else {
+					JOptionPane.showMessageDialog(null, "¼±ÅÃÇÏ¼¼¿ä");
+				}
+			}
+		});
+
+		KBtn[4].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RoundButton k_five = (RoundButton) e.getSource();
+				if (a == 1) {
+					bcode.setText(bcode.getText() + "5");
+					bcode.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 2) {
+					cnt.setText(cnt.getText() + "5");
+					cnt.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 3) {
+					tf2.setText(tf2.getText() + "5");
+					tf2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else {
+					JOptionPane.showMessageDialog(null, "¼±ÅÃÇÏ¼¼¿ä");
+				}
+			}
+		});
+
+		KBtn[5].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RoundButton k_six = (RoundButton) e.getSource();
+				if (a == 1) {
+					bcode.setText(bcode.getText() + "6");
+					bcode.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 2) {
+					cnt.setText(cnt.getText() + "6");
+					cnt.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 3) {
+					tf2.setText(tf2.getText() + "6");
+					tf2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else {
+					JOptionPane.showMessageDialog(null, "¼±ÅÃÇÏ¼¼¿ä");
+				}
+			}
+		});
+
+		KBtn[6].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RoundButton k_seven = (RoundButton) e.getSource();
+				if (a == 1) {
+					bcode.setText(bcode.getText() + "7");
+					bcode.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 2) {
+					cnt.setText(cnt.getText() + "7");
+					cnt.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 3) {
+					tf2.setText(tf2.getText() + "7");
+					tf2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else {
+					JOptionPane.showMessageDialog(null, "¼±ÅÃÇÏ¼¼¿ä");
+				}
+			}
+		});
+
+		KBtn[7].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RoundButton k_eight = (RoundButton) e.getSource();
+				if (a == 1) {
+					bcode.setText(bcode.getText() + "8");
+					bcode.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 2) {
+					cnt.setText(cnt.getText() + "8");
+					cnt.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 3) {
+					tf2.setText(tf2.getText() + "8");
+					tf2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else {
+					JOptionPane.showMessageDialog(null, "¼±ÅÃÇÏ¼¼¿ä");
+				}
+			}
+		});
+
+		KBtn[8].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RoundButton k_nine = (RoundButton) e.getSource();
+				if (a == 1) {
+					bcode.setText(bcode.getText() + "9");
+					bcode.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 2) {
+					cnt.setText(cnt.getText() + "9");
+					cnt.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 3) {
+					tf2.setText(tf2.getText() + "9");
+					tf2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else {
+					JOptionPane.showMessageDialog(null, "¼±ÅÃÇÏ¼¼¿ä");
+				}
+			}
+		});
+
+		KBtn[9].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RoundButton k_zero = (RoundButton) e.getSource();
+				if (a == 1) {
+					bcode.setText(bcode.getText() + "0");
+					bcode.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 2) {
+					cnt.setText(cnt.getText() + "0");
+					cnt.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else if (a == 3) {
+					tf2.setText(tf2.getText() + "0");
+					tf2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+				} else {
+					JOptionPane.showMessageDialog(null, "¼±ÅÃÇÏ¼¼¿ä");
+				}
+			}
+		});
+
+		// µî·Ï
+		KBtn[10].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int change = Integer.valueOf(tf2.getText()) - sum;
+				tf2.setText(tf2.getText());
+				tf3.setText(Integer.toString(change));
+				tf3.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+			}
+		});
+		KBtn[11].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (a == 1) {
+					if (bcode.getText().length() - 1 > 0)
+						bcode.setText(bcode.getText().substring(0, bcode.getText().length() - 1));
+					else
+						bcode.setText("");
+				} else if (a == 2) {
+					if (cnt.getText().length() - 1 > 0)
+						cnt.setText(cnt.getText().substring(0, cnt.getText().length() - 1));
+					else
+						cnt.setText("");
+				} else if (a == 3) {
+					if (tf2.getText().length() - 1 > 0)
+						tf2.setText(tf2.getText().substring(0, tf2.getText().length() - 1));
+					else
+						tf2.setText("");
+				} else {
+					JOptionPane.showMessageDialog(null, "¼±ÅÃÇÏ¼¼¿ä");
+				}
+			}
+		});
 //      KBtn[12].addActionListener(new ActionListener() {
 //          @Override
 //          public void actionPerformed(ActionEvent e) {
@@ -469,166 +502,160 @@ public class POSPanel extends JPanel {
 //        		  tf2.setText("");
 //        	  }
 //        	  else {
-//        		  JOptionPane.showMessageDialog(null, "ì„ íƒí•˜ì„¸ìš”");
+//        		  JOptionPane.showMessageDialog(null, "¼±ÅÃÇÏ¼¼¿ä");
 //        	  }
 //          }
 //       });
 
-      menuBtn[0].addActionListener(new ActionListener() {
-    		
-    		@Override
-    		public void actionPerformed(ActionEvent e) {
-    			new GUI_list().setVisible(true);
-    		}
-    	});      
-menuBtn[1].addActionListener(new ActionListener() {
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		new GUI_refund().setVisible(true);
-	}
-});
-menuBtn[2].addActionListener(new ActionListener() {
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(LoginView.Enable==1)
-		new GUI_profit();
-		else //ê´€ë¦¬ì ê¶Œí•œ ì•„ë‹ë•Œ ë©”ì‹œì§€ ë„ìš°ê¸°
-		{
-			JOptionPane.showMessageDialog(null, "ê´€ë¦¬ì ê¶Œí•œì´ í•„ìš”í•©ë‹ˆë‹¤");
-		}
-	}
-});
-menuBtn[3].addActionListener(new ActionListener() {
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		new GUI_stock_add();
-	}
-});
-menuBtn[4].addActionListener(new ActionListener() {
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(LoginView.Enable==1)
-		new GUI_insert_product();
-		else //ê´€ë¦¬ì ê¶Œí•œ ì•„ë‹ë•Œ ë©”ì‹œì§€ ë„ìš°ê¸°
-		{
-			JOptionPane.showMessageDialog(null, "ê´€ë¦¬ì ê¶Œí•œì´ í•„ìš”í•©ë‹ˆë‹¤");
-		}
-	}
-});
-menuBtn[5].addActionListener(new ActionListener() {
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		System.out.println("ë¡œê·¸ì•„ì›ƒ");
-		LoginView.setEnable(-1);
-		new LoginView();
-	}
-});
+		menuBtn[0].addActionListener(new ActionListener() {
 
-      miniBtn[0].addActionListener(new ActionListener() {   //ë°”ì½”ë“œ í™•ì¸ ë²„íŠ¼
-         @Override
-         public void actionPerformed(ActionEvent e) {
-        	 model2.setNumRows(0);
-              product a=db.search_L(bcode.getText());
-              if(a!=null) {
-              T2[0]=a.getName();
-              T2[1]=a.getPrice();
-              stock=a.getStock();
-              category=a.getCategory();
-              model2.addRow(T2);}
-              else {
-            	  JOptionPane.showMessageDialog(null, "ë°”ì½”ë“œë¥¼ í™•ì¸í•˜ì„¸ìš”");
-              }	
-            }        
-      });
-      
-      miniBtn[1].addActionListener(new ActionListener() {   //ìˆ˜ëŸ‰ í™•ì¸ ë²„íŠ¼
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            int num=Integer.parseInt(cnt.getText());
-            if(Integer.parseInt(stock)<num) {
-            	JOptionPane.showMessageDialog(null, "ìƒí’ˆì˜ ì¬ê³ ë¥¼ ì´ˆê³¼í•˜ì˜€ìŠµë‹ˆë‹¤. ì¬ê³  : " + stock);
-            	cnt.setText(stock);
-            }
-            else {
-               T[0]=T2[0];
-               T[1]=Integer.toString(num);
-               T[2]=category;
-               T[3]=Integer.toString(Integer.parseInt(T2[1])*num);
-               model.addRow(T);
-               stock="";
-               sum+=Integer.parseInt(T[3]);
-               tf1.setText(String.valueOf(sum));
-               tf1.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-               bcode.setText("");
-               cnt.setText("");
-               model2.setNumRows(0);
-            }
-         }
-         
-      });
-      
-      SBtn[0].addActionListener(new ActionListener() {   // ì„ íƒì·¨ì†Œ
-         @Override
-         public void actionPerformed(ActionEvent e) {
-        	if(table.getSelectedRow()>-1) {
-            JButton SB = (JButton) e.getSource();
-            DefaultTableModel m = (DefaultTableModel) table.getModel();
-            sum=Integer.parseInt(tf1.getText())-Integer.parseInt((String)table.getModel().getValueAt(table.getSelectedRow(), 3));
-            tf1.setText(Integer.toString(sum));
-            m.removeRow(table.getSelectedRow());
-            int change = Integer.parseInt(tf2.getText()) - sum;
-            tf2.setText(tf2.getText());
-            tf3.setText(Integer.toString(change));
-            tf3.setFont(new Font("ë§‘ì€ê³ ë”•", Font.BOLD, 20));
-            }
-        	else {
-        		JOptionPane.showMessageDialog(null, "ì„ íƒí•˜ì„¸ìš”");	
-        	}
-         }
-      });
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new GUI_list().setVisible(true);
+			}
+		});
+		menuBtn[1].addActionListener(new ActionListener() {
 
-      SBtn[1].addActionListener(new ActionListener() {   // ì „ì²´ì·¨ì†Œ
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            JButton SB = (JButton) e.getSource();
-            DefaultTableModel m = (DefaultTableModel) table.getModel();
-            m.setRowCount(0);
-            sum=0;
-            tf1.setText(String.valueOf(""));
-            tf2.setText("");
-            tf3.setText("");
-         }
-      });
-      
-      SBtn[2].addActionListener(new ActionListener() {   // ê²°ì œ (ë¬¼ê±´ì¬ê³  ìˆ˜ì •, ì˜ìˆ˜ì¦ ë§Œë“¤ê¸°
-         @Override
-         public void actionPerformed(ActionEvent e) {
-        	 SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        	 Date d= new Date();
-        	 String date = format.format(d);
-        	 //String date=Integer.toString(cal.get(cal.YEAR))+Integer.toString(cal.get(cal.MONTH)+1)+Integer.toString(cal.get(cal.DATE));
-        	int num=db.chk_Bill_num(date);
-        	if(num==0)
-        		date+="1";
-        	else
-        		date=Integer.toString(num+1);
-        	for(int i=0;i<table.getRowCount();i++) {
-        	db.insert_B(date, (String)table.getValueAt(i,0), (String)table.getValueAt(i,3),(String)table.getValueAt(i,1),(String) table.getValueAt(i,2));
-        	db.update_S((String)table.getValueAt(i,0),-Integer.parseInt((String)table.getValueAt(i,1)));
-        	}
-        	model.setNumRows(0);
-        	new bill(date);
-        	tf1.setText("");
-        	tf2.setText("");
-        	tf3.setText("");
-         }
-      });
-      
-   }
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new GUI_refund().setVisible(true);
+			}
+		});
+		menuBtn[2].addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (LoginView.Enable == 1)
+					new GUI_profit();
+				else // °ü¸®ÀÚ ±ÇÇÑ ¾Æ´Ò¶§ ¸Ş½ÃÁö ¶ç¿ì±â
+				{
+					JOptionPane.showMessageDialog(null, "°ü¸®ÀÚ ±ÇÇÑÀÌ ÇÊ¿äÇÕ´Ï´Ù");
+				}
+			}
+		});
+		menuBtn[3].addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new GUI_stock_add();
+			}
+		});
+		menuBtn[4].addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (LoginView.Enable == 1)
+					new GUI_insert_product();
+				else // °ü¸®ÀÚ ±ÇÇÑ ¾Æ´Ò¶§ ¸Ş½ÃÁö ¶ç¿ì±â
+				{
+					JOptionPane.showMessageDialog(null, "°ü¸®ÀÚ ±ÇÇÑÀÌ ÇÊ¿äÇÕ´Ï´Ù");
+				}
+			}
+		});
+		loginBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("·Î±×¾Æ¿ô");
+				LoginView.setEnable(-1);
+				new LoginView();
+			}
+		});
+
+		miniBtn[0].addActionListener(new ActionListener() { // ¹ÙÄÚµå È®ÀÎ ¹öÆ°
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// model2.setNumRows(0);
+				product a = db.search_L(bcode.getText());
+				if (a != null) {
+					T2[0] = a.getName();
+					T2[1] = a.getPrice();
+					stock = a.getStock();
+					category = a.getCategory();
+					// model2.addRow(T2);
+					p_name.setText(T2[0]);
+					p_price.setText(T2[1]);
+				} else {
+				}
+			}
+		});
+
+		miniBtn[1].addActionListener(new ActionListener() { // ¼ö·® È®ÀÎ ¹öÆ°
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int num = Integer.parseInt(cnt.getText());
+				if (Integer.parseInt(stock) < num) {
+					JOptionPane.showMessageDialog(null, "»óÇ°ÀÇ Àç°í¸¦ ÃÊ°úÇÏ¿´½À´Ï´Ù. Àç°í : " + stock);
+					cnt.setText(stock);
+				} else {
+					T[0] = T2[0];
+					T[1] = Integer.toString(num);
+					T[2] = category;
+					T[3] = Integer.toString(Integer.parseInt(T2[1]) * num);
+					model.addRow(T);
+					stock = "";
+					sum += Integer.parseInt(T[3]);
+					tf1.setText(String.valueOf(sum));
+					tf1.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 20));
+					bcode.setText("");
+					cnt.setText("");
+					// model2.setNumRows(0);
+				}
+			}
+
+		});
+
+		SBtn[0].addActionListener(new ActionListener() { // ¼±ÅÃÃë¼Ò
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (table.getSelectedRow() > -1) {
+					RoundButton SB = (RoundButton) e.getSource();
+					DefaultTableModel m = (DefaultTableModel) table.getModel();
+					sum = Integer.parseInt(tf1.getText())
+							- Integer.parseInt((String) table.getModel().getValueAt(table.getSelectedRow(), 3));
+					tf1.setText(Integer.toString(sum));
+					m.removeRow(table.getSelectedRow());
+				} else {
+					JOptionPane.showMessageDialog(null, "¼±ÅÃÇÏ¼¼¿ä");
+				}
+			}
+		});
+
+		SBtn[1].addActionListener(new ActionListener() { // ÀüÃ¼Ãë¼Ò
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RoundButton SB = (RoundButton) e.getSource();
+				DefaultTableModel m = (DefaultTableModel) table.getModel();
+				m.setRowCount(0);
+				sum = 0;
+				tf1.setText(String.valueOf(""));
+			}
+		});
+
+		SBtn[2].addActionListener(new ActionListener() { // °áÁ¦ (¹°°ÇÀç°í ¼öÁ¤, ¿µ¼öÁõ ¸¸µé±â
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+				Date d = new Date();
+				String date = format.format(d);
+				// String
+				// date=Integer.toString(cal.get(cal.YEAR))+Integer.toString(cal.get(cal.MONTH)+1)+Integer.toString(cal.get(cal.DATE));
+				int num = db.chk_Bill_num(date);
+				if (num == 0)
+					date += "1";
+				else
+					date = Integer.toString(num + 1);
+				for (int i = 0; i < table.getRowCount(); i++) {
+					db.insert_B(date, (String) table.getValueAt(i, 0), (String) table.getValueAt(i, 3),
+							(String) table.getValueAt(i, 1), (String) table.getValueAt(i, 2));
+					db.update_S((String) table.getValueAt(i, 0), -Integer.parseInt((String) table.getValueAt(i, 1)));
+				}
+				model.setNumRows(0);
+				new bill(date);
+				tf1.setText("");
+				tf2.setText("");
+				tf3.setText("");
+			}
+		});
+	}
 }
-

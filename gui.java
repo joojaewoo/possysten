@@ -11,4 +11,7 @@ public class gui {
 		loginView.dispose();
     	new POS_Frame();
 	}
+	public static void main(String args[]) {
+		new POS_Frame();
+	}
 }

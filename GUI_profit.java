@@ -79,7 +79,7 @@ public class GUI_profit extends JFrame {
                 jDateChooser2PropertyChange(evt);
             }
         });
-		final JButton btnOk = new JButton("OK");
+		final RoundButton btnOk = new RoundButton("OK");
 		final JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(d);
 		final GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -118,7 +118,7 @@ public class GUI_profit extends JFrame {
 				new Object[][] {
 				},
 				new String[] {
-						"날짜","식품류", "잡화류", "음료", "담배류", "과자류", "주류","총합"
+						"�궇吏�","�떇�뭹瑜�", "�옟�솕瑜�", "�쓬猷�", "�떞諛곕쪟", "怨쇱옄瑜�", "二쇰쪟","珥앺빀"
 				}
 				);
 		table.setModel(model);
@@ -182,9 +182,9 @@ public class GUI_profit extends JFrame {
 
 				}
 
-				Object []tmp = {"총합", total_tps[0], total_tps[1], total_tps[2], total_tps[3], total_tps[4],total_tps[5],total_tps[6]};
+				Object []tmp = {"珥앺빀", total_tps[0], total_tps[1], total_tps[2], total_tps[3], total_tps[4],total_tps[5],total_tps[6]};
 				if(total_tps[6]==0)
-					JOptionPane.showMessageDialog(null, "조회된 매출이 없습니다.");
+					JOptionPane.showMessageDialog(null, "議고쉶�맂 留ㅼ텧�씠 �뾾�뒿�땲�떎.");
 				else
 				model.addRow(tmp);
 				/*for(int i = 0; i < dates.size(); i++) {
@@ -199,17 +199,17 @@ public class GUI_profit extends JFrame {
 			private void cal(int[] tps, ArrayList<sale> a) {
 				// TODO Auto-generated method stub
 				for(int i = 0; i < a.size(); i++) {
-					if(a.get(i).category.equalsIgnoreCase("식품류"))
+					if(a.get(i).category.equalsIgnoreCase("�떇�뭹瑜�"))
 						tps[0] += a.get(i).price;
-					else if(a.get(i).category.equalsIgnoreCase("잡화류"))
+					else if(a.get(i).category.equalsIgnoreCase("�옟�솕瑜�"))
 						tps[1] += a.get(i).price;
-					else if(a.get(i).category.equalsIgnoreCase("음료"))
+					else if(a.get(i).category.equalsIgnoreCase("�쓬猷�"))
 						tps[2] += a.get(i).price;
-					else if(a.get(i).category.equalsIgnoreCase("담배류"))
+					else if(a.get(i).category.equalsIgnoreCase("�떞諛곕쪟"))
 						tps[3] += a.get(i).price;
-					else if(a.get(i).category.equalsIgnoreCase("과자류"))
+					else if(a.get(i).category.equalsIgnoreCase("怨쇱옄瑜�"))
 						tps[4] += a.get(i).price;
-					else if(a.get(i).category.equalsIgnoreCase("주류"))
+					else if(a.get(i).category.equalsIgnoreCase("二쇰쪟"))
 						tps[5] += a.get(i).price;
 					tps[6] += a.get(i).price;
 
@@ -231,7 +231,7 @@ public class GUI_profit extends JFrame {
         String b = format.format(end_date);
         int bb = Integer.parseInt(b);
         if(aa > bb) {
-            JOptionPane.showMessageDialog(null, "날짜를 다시 선택하세요");
+            JOptionPane.showMessageDialog(null, "�궇吏쒕�� �떎�떆 �꽑�깮�븯�꽭�슂");
             dateChooser.setDate(end_date);
         }
     }
@@ -245,7 +245,7 @@ public class GUI_profit extends JFrame {
         String b = format.format(end_date);
         int bb = Integer.parseInt(b);
         if(aa > bb) {
-            JOptionPane.showMessageDialog(null, "날짜를 다시 선택하세요");
+            JOptionPane.showMessageDialog(null, "�궇吏쒕�� �떎�떆 �꽑�깮�븯�꽭�슂");
             dateChooser_1.setDate(start_date);
         }
     }

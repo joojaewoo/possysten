@@ -8,8 +8,11 @@ public class GUI_insert_product {
 	JFrame Jframe;
 	boolean chk_p=false;
 	JTextField barcode,name,stock,price,category;
+	JPanel jp = new JPanel();
 	public GUI_insert_product() {
 		Jframe= new JFrame();
+		jp.setBackground(Color.white);
+		Jframe.add(jp);
 		setJframe();
 		setJtextField();
 		setButton();
@@ -23,30 +26,61 @@ public class GUI_insert_product {
 		GridLayout a=new GridLayout(6,1);
 		a.setVgap(10);
 		a.setHgap(10);
-		Jframe.setLayout(a);
+		jp.setLayout(a);
+		jp.setBorder(BorderFactory.createEmptyBorder(20 , 20 , 20 , 20));
 		Jframe.setPreferredSize(d);
 	}
 	public void setJtextField() {
-		Jframe.add(new JLabel("»óÇ°¹ÙÄÚµå"));
+		JLabel lb1 = new JLabel("»óÇ°¹ÙÄÚµå");
+		lb1.setHorizontalAlignment(JLabel.CENTER);
+		lb1.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(lb1);
 		barcode=new JTextField(10);
-		Jframe.add(barcode);
-		Jframe.add(new JLabel("»óÇ°¸í"));
+		barcode.setHorizontalAlignment(JTextField.CENTER);
+		barcode.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(barcode);
+		
+		JLabel lb2 = new JLabel("»óÇ°¸í");
+		lb2.setHorizontalAlignment(JLabel.CENTER);
+		lb2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(lb2);
 		name=new JTextField(10);
-		Jframe.add(name);
-		Jframe.add(new JLabel("°¡°Ý"));
+		name.setHorizontalAlignment(JTextField.CENTER);
+		name.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(name);
+		
+		JLabel lb3 = new JLabel("°¡°Ý");
+		lb3.setHorizontalAlignment(JLabel.CENTER);
+		lb3.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(lb3);
 		price=new JTextField(10);
-		Jframe.add(price);
-		Jframe.add(new JLabel("¼ö·®"));
+		price.setHorizontalAlignment(JTextField.CENTER);
+		price.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(price);
+		
+		JLabel lb4 = new JLabel("¼ö·®");
+		lb4.setHorizontalAlignment(JLabel.CENTER);
+		lb4.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(lb4);
 		stock=new JTextField(10);
-		Jframe.add(stock);
-		Jframe.add(new JLabel("Á¾·ù"));
+		stock.setHorizontalAlignment(JTextField.CENTER);
+		stock.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(stock);
+		
+		JLabel lb5 = new JLabel("Á¾·ù");
+		lb5.setHorizontalAlignment(JLabel.CENTER);
+		lb5.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(lb5);
 		category=new JTextField(10);
-		Jframe.add(category);
+		category.setHorizontalAlignment(JTextField.CENTER);
+		category.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(category);
 	}
 	public void setButton() {
-		Jframe.add(new JLabel());
-		JButton button=new JButton("¿Ï·á");
-		Jframe.add(button);
+		jp.add(new JLabel());
+		RoundButton button=new RoundButton("¿Ï·á");
+		button.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(button);
 		ActionListener listener=new ActionListener() {
 
 			@Override

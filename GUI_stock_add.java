@@ -9,8 +9,11 @@ import javax.swing.*;
 public class GUI_stock_add {
 	JFrame Jframe;
 	JTextField name,num;
+	JPanel jp = new JPanel();
 	public GUI_stock_add() {
 		Jframe= new JFrame();
+		jp.setBackground(Color.white);
+		Jframe.add(jp);
 		setJframe();
 		setJtextField();
 		setButton();
@@ -19,23 +22,38 @@ public class GUI_stock_add {
 		Jframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	public void setJframe(){
-		Dimension d=new Dimension(500,150);
+		Dimension d=new Dimension(400,200);
 		Jframe.setLocation(500,400);
-		Jframe.setLayout(new GridLayout(3,1));
+		jp.setLayout(new GridLayout(3,1));
+		jp.setBorder(BorderFactory.createEmptyBorder(20 , 20 , 20 , 20));
 		Jframe.setPreferredSize(d);
 	}
 	public void setJtextField() {
-		Jframe.add(new JLabel("»óÇ°¸í"));
+		JLabel l1 = new JLabel("»óÇ°¸í");
+		l1.setHorizontalAlignment(JLabel.CENTER);
+		l1.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(l1);
+		
 		name=new JTextField(15);
-		Jframe.add(name);
-		Jframe.add(new JLabel("Ãß°¡¼ö·®ÀÔ·Â"));
+		name.setHorizontalAlignment(JTextField.CENTER);
+		name.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(name);
+		
+		JLabel l2 = new JLabel("Ãß°¡¼ö·® ÀÔ·Â");
+		l2.setHorizontalAlignment(JLabel.CENTER);
+		l2.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(l2);
+		
 		num=new JTextField(10);
-		Jframe.add(num);
+		num.setHorizontalAlignment(JTextField.CENTER);
+		num.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(num);
 	}
 	public void setButton() {
-		Jframe.add(new JLabel());
-		JButton button=new JButton("¿Ï·á");
-		Jframe.add(button);
+		jp.add(new JLabel());
+		RoundButton button=new RoundButton("¿Ï·á");
+		button.setFont(new Font("¸¼Àº°íµñ", Font.BOLD, 15));
+		jp.add(button);
 		ActionListener listener=new ActionListener() {
 			
 			@Override

@@ -49,13 +49,13 @@ public class GUI_refund extends javax.swing.JFrame {
         End_Date = new javax.swing.JLabel();
         Bill_Label = new javax.swing.JLabel();
         Bill_Barcode = new javax.swing.JTextField();
-        Bill_Barcode_Input = new javax.swing.JButton();
+        RoundButton Bill_Barcode_Input = new RoundButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Search_Result = new javax.swing.JTable();
-        Date_Search = new javax.swing.JButton();
+        RoundButton Date_Search = new RoundButton();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        Refund_button = new javax.swing.JButton();
+        RoundButton Refund_button = new RoundButton();
         
         Bill_Text.setEnabled(false);
         Search_Result.setEnabled(false);
@@ -481,13 +481,10 @@ public class GUI_refund extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Bill_Barcode;
-    private javax.swing.JButton Bill_Barcode_Input;
     private javax.swing.JLabel Bill_Label;
     private javax.swing.JTextArea Bill_Text;
     private javax.swing.JTextField Bill_Title;
-    private javax.swing.JButton Date_Search;
     private javax.swing.JLabel End_Date;
-    private javax.swing.JButton Refund_button;
     private javax.swing.JTable Search_Result;
     private javax.swing.JLabel Start_Date;
     private com.toedter.calendar.JDateChooser jDateChooser1;

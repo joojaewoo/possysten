@@ -1,5 +1,6 @@
 package pos;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
  
@@ -16,12 +17,12 @@ public class LoginView extends JFrame{
     private gui testFrm;
     JFrame L=new JFrame();
    
-    private JButton btnLogin;
-    private JButton btnInit;
+    private RoundButton btnLogin;
+    private RoundButton btnInit;
     private JPasswordField passText;
     private JTextField userText;
     private boolean bLoginCheck;
-    public static int Enable;
+    public static int Enable=1;
     public static void main(String[] args) {
         //new LoginView();
     }
@@ -38,7 +39,7 @@ public class LoginView extends JFrame{
         // panel
         JPanel panel = new JPanel();
         placeLoginPanel(panel);
-       
+       panel.setBackground(Color.white);
        
         // add
         L.add(panel);
@@ -71,7 +72,7 @@ public class LoginView extends JFrame{
             }
         });
        
-        btnInit = new JButton("Reset");
+        btnInit = new RoundButton("Reset");
         btnInit.setBounds(10, 80, 100, 25);
         panel.add(btnInit);
         btnInit.addActionListener(new ActionListener() {
@@ -82,7 +83,7 @@ public class LoginView extends JFrame{
             }
         });
        
-        btnLogin = new JButton("Login");
+        btnLogin = new RoundButton("Login");
         btnLogin.setBounds(160, 80, 100, 25);
         panel.add(btnLogin);
         btnLogin.addActionListener(new ActionListener() {

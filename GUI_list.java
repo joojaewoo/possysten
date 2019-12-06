@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * 
  *
  * @author user
  */
@@ -39,19 +38,17 @@ public class GUI_list extends javax.swing.JFrame {
         Pname = new javax.swing.JTextField();
 //        Pbarcode_Label = new javax.swing.JLabel();
 //        Pbarcode = new javax.swing.JTextField();
-        Search_Button = new javax.swing.JButton();
+        RoundButton Search_Button = new RoundButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         List = new javax.swing.JTable();
         Category_Label = new javax.swing.JLabel();
         Category = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        List.setRowHeight(30);
-        List.setEnabled(false);
-      
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("ì¬ê³ ì •ë³´"));
-        getContentPane().setBackground(Color.white);
-        Pname_Label.setText("ìƒí’ˆëª…");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Àç°íÁ¤º¸"));
+        jPanel1.setBackground(Color.white);
+        Pname_Label.setText("»óÇ°¸í");
 
         Pname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,9 +56,9 @@ public class GUI_list extends javax.swing.JFrame {
             }
         });
 
-//        Pbarcode_Label.setText("ìƒí’ˆ ë°”ì½”ë“œ");
+//        Pbarcode_Label.setText("»óÇ° ¹ÙÄÚµå");
 
-        Search_Button.setText("ì¡°íšŒ");
+        Search_Button.setText("Á¶È¸");
         Search_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Search_ButtonActionPerformed(evt);
@@ -73,7 +70,7 @@ public class GUI_list extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ìƒí’ˆëª…", "ê°€ê²©", "ì¹´í…Œê³ ë¦¬", "ì¬ê³ "
+                "»óÇ°¸í", "°¡°İ", "Ä«Å×°í¸®", "Àç°í"
             }
         ) {
             Class[] types = new Class [] {
@@ -85,10 +82,10 @@ public class GUI_list extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(List);
-
-        Category_Label.setText("ì¹´í…Œê³ ë¦¬");
-
-        Category.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ì „ì²´","ì‹í’ˆë¥˜", "ì¡í™”ë¥˜", "ìŒë£Œ", "ë‹´ë°°ë¥˜","ê³¼ìë¥˜","ì£¼ë¥˜" }));
+        getContentPane().setBackground(Color.white);
+        Category_Label.setText("Ä«Å×°í¸®");
+        Category.setBackground(Color.white);
+        Category.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ÀüÃ¼","½ÄÇ°·ù", "ÀâÈ­·ù", "À½·á", "´ã¹è·ù","°úÀÚ·ù","ÁÖ·ù" }));
         Category.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CategoryActionPerformed(evt);
@@ -178,11 +175,11 @@ public class GUI_list extends javax.swing.JFrame {
     	model.setNumRows(0);
     	ArrayList<product> a; 	
         if(!Pname.getText().contentEquals("")) {
-       //ìƒí’ˆëª… ê²€ìƒ‰
+       //»óÇ°¸í °Ë»ö
 //        else if (Pbarcode.getText() == "") {
 //            
-//        } // ìƒí’ˆ ë°”ì½”ë“œ ê²€ìƒ‰
-        if(Category.getSelectedItem().toString().contentEquals("ì „ì²´")){
+//        } // »óÇ° ¹ÙÄÚµå °Ë»ö
+        if(Category.getSelectedItem().toString().contentEquals("ÀüÃ¼")){
 
             a=db.search_List(Pname.getText(),"0");
         }
@@ -192,7 +189,7 @@ public class GUI_list extends javax.swing.JFrame {
         }
         else
         {
-        	if(Category.getSelectedItem().toString().contentEquals("ì „ì²´")){
+        	if(Category.getSelectedItem().toString().contentEquals("ÀüÃ¼")){
         		a=db.search_List("0","0");    
             }
             else {
