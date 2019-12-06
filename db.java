@@ -103,7 +103,7 @@ public class db {
 		 String sql= "insert into product values ('"+barcode+"','"+name+"','"+price+"','"+stock+"','"+category+"')";
 		 try {
 				int rss=stmt.executeUpdate(sql);
-				return true;
+				return true; 
 			} catch (SQLException e) {
 				e.printStackTrace(System.out);
 				e.printStackTrace();

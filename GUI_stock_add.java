@@ -40,13 +40,7 @@ public class GUI_stock_add {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(name.getText().contentEquals("")) {
-					JOptionPane.showMessageDialog(null, "상품명을 입력하세요");
-				}
-				else if(num.getText().contentEquals("")) {
-					JOptionPane.showMessageDialog(null, "수량을 입력하세요");
-				}
-				else {
+				if(chk_information()) {
 				if(db.chk_P(name.getText())) {
 					db.update_S(name.getText(),Integer.parseInt(num.getText()));
 					JOptionPane.showMessageDialog(null, "재고추가가 완료되었습니다.");
@@ -54,9 +48,26 @@ public class GUI_stock_add {
 				else
 					JOptionPane.showMessageDialog(null, "상품명을 확인해주세요");
 				}
+				else
+					JOptionPane.showMessageDialog(null, "Error");
 			}
 		};
 		button.addActionListener(listener);
+	}
+	public boolean chk_information() {
+		if(name.getText().contentEquals("")) {
+			JOptionPane.showMessageDialog(null, "상품명을 입력하세요");
+			return false;
+		}
+		else if(num.getText().contentEquals("")) {
+			JOptionPane.showMessageDialog(null, "수량을 입력하세요");
+			return false;
+		}
+		else if(Integer.parseInt(num.getText())<0) {
+			JOptionPane.showMessageDialog(null, "수량을 확인하세요");
+			return false;
+		}
+		return true;
 	}
 static public void main(String args[]) {
 	new GUI_stock_add();

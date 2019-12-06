@@ -1,5 +1,6 @@
 package pos;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -60,7 +61,9 @@ public class GUI_profit extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		Dimension d= new Dimension(400,400);
+		contentPane.setBackground(Color.white);
+		getContentPane().setBackground(Color.white);
+		Dimension d= new Dimension(600,600);
 		/*   dateChooser.getCalendarButton().addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
          }
@@ -109,6 +112,7 @@ public class GUI_profit extends JFrame {
 
 		final JTable table = new JTable();
 		table.setToolTipText("");
+		table.setEnabled(false);
 		scrollPane.setViewportView(table);
 		final DefaultTableModel model = new DefaultTableModel(
 				new Object[][] {

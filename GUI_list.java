@@ -5,12 +5,14 @@
  */
 package pos;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * 
  *
  * @author user
  */
@@ -44,9 +46,11 @@ public class GUI_list extends javax.swing.JFrame {
         Category = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+        List.setRowHeight(30);
+        List.setEnabled(false);
+      
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("재고정보"));
-
+        getContentPane().setBackground(Color.white);
         Pname_Label.setText("상품명");
 
         Pname.addActionListener(new java.awt.event.ActionListener() {

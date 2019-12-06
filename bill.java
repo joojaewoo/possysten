@@ -66,6 +66,7 @@ public void setCategory(String category) {
 	this.category=category;
 }
 public static void Bill(String barcode) {
+	Bill_Text1.setEnabled(false);
 	Bill_Text1.setText("");
     String header[] = {"상품명", "수량", "가격"};
     ArrayList<bill> a= db.search_B(barcode);

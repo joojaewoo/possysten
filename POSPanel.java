@@ -128,7 +128,10 @@ public class POSPanel extends JPanel {
       StrBtn sbtn = new StrBtn();
       Screen sc = new Screen();
       Information inf = new Information();
-
+      
+      tf1.setEnabled(false);
+      tf3.setEnabled(false);
+      
       label1.setSize(70, 30); // 바코드
       label1.setLocation(730, 30);
       label1.setFont(new Font("맑은고딕", Font.BOLD, 15));
@@ -537,7 +540,9 @@ menuBtn[5].addActionListener(new ActionListener() {
               stock=a.getStock();
               category=a.getCategory();
               model2.addRow(T2);}
-              else {}	
+              else {
+            	  JOptionPane.showMessageDialog(null, "바코드를 확인하세요");
+              }	
             }        
       });
       
@@ -575,7 +580,12 @@ menuBtn[5].addActionListener(new ActionListener() {
             DefaultTableModel m = (DefaultTableModel) table.getModel();
             sum=Integer.parseInt(tf1.getText())-Integer.parseInt((String)table.getModel().getValueAt(table.getSelectedRow(), 3));
             tf1.setText(Integer.toString(sum));
-            m.removeRow(table.getSelectedRow());}
+            m.removeRow(table.getSelectedRow());
+            int change = Integer.parseInt(tf2.getText()) - sum;
+            tf2.setText(tf2.getText());
+            tf3.setText(Integer.toString(change));
+            tf3.setFont(new Font("맑은고딕", Font.BOLD, 20));
+            }
         	else {
         		JOptionPane.showMessageDialog(null, "선택하세요");	
         	}
@@ -590,6 +600,8 @@ menuBtn[5].addActionListener(new ActionListener() {
             m.setRowCount(0);
             sum=0;
             tf1.setText(String.valueOf(""));
+            tf2.setText("");
+            tf3.setText("");
          }
       });
       
@@ -616,6 +628,7 @@ menuBtn[5].addActionListener(new ActionListener() {
         	tf3.setText("");
          }
       });
+      
    }
 }
 
