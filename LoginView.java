@@ -22,7 +22,7 @@ public class LoginView extends JFrame{
     private JPasswordField passText;
     private JTextField userText;
     private boolean bLoginCheck;
-    public static int Enable=1;
+    public static int Enable;
     public static void main(String[] args) {
         //new LoginView();
     }
