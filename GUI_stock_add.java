@@ -66,8 +66,6 @@ public class GUI_stock_add {
 				else
 					JOptionPane.showMessageDialog(null, "상품명을 확인해주세요");
 				}
-				else
-					JOptionPane.showMessageDialog(null, "Error");
 			}
 		};
 		button.addActionListener(listener);
@@ -77,15 +75,20 @@ public class GUI_stock_add {
 			JOptionPane.showMessageDialog(null, "상품명을 입력하세요");
 			return false;
 		}
-		else if(num.getText().contentEquals("")) {
-			JOptionPane.showMessageDialog(null, "수량을 입력하세요");
-			return false;
-		}
-		else if(Integer.parseInt(num.getText())<0) {
+		else if(!chk_num(num.getText())&&Integer.parseInt(num.getText())<0) {
 			JOptionPane.showMessageDialog(null, "수량을 확인하세요");
 			return false;
 		}
 		return true;
+	}
+	public static boolean chk_num(String s){
+		try {
+			Integer.parseInt(s);
+			return true;
+		}
+		catch(NumberFormatException e) {
+			return false;
+		}
 	}
 static public void main(String args[]) {
 	new GUI_stock_add();

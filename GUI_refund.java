@@ -5,6 +5,7 @@
  */
 package pos;
 
+import java.awt.Color;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +27,7 @@ public class GUI_refund extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
+	String billcode="";
 	String contents[][];
     public GUI_refund() {
         initComponents();
@@ -60,7 +62,7 @@ public class GUI_refund extends javax.swing.JFrame {
         Bill_Text.setEnabled(false);
         Search_Result.setEnabled(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+        getContentPane().setBackground(Color.white);
         jDateChooser1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jDateChooser1PropertyChange(evt);
@@ -87,6 +89,8 @@ public class GUI_refund extends javax.swing.JFrame {
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
+        jPanel1.setBackground(Color.white);
+        jPanel2.setBackground(Color.white);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -240,6 +244,11 @@ public class GUI_refund extends javax.swing.JFrame {
                         .addGap(0, 17, Short.MAX_VALUE))))
         );
 
+        Search_Result.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Search_ResultMouseClicked(evt);
+            }
+        });
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -249,7 +258,7 @@ public class GUI_refund extends javax.swing.JFrame {
 
     private void Refund_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Refund_buttonActionPerformed
         // TODO add your handling code here:
-    	String barcode = Bill_Barcode.getText();
+    	String barcode = billcode;
     	if(barcode.contentEquals("")) {
     		JOptionPane.showMessageDialog(null, "영수증 바코드를 입력하세요.");
     	}
@@ -264,13 +273,20 @@ public class GUI_refund extends javax.swing.JFrame {
          else {
         	 JOptionPane.showMessageDialog(null, "Error");	 
          }
-    	}
-        
+    	}       
+    	 
     }//GEN-LAST:event_Refund_buttonActionPerformed
+    private void Search_ResultMouseClicked(java.awt.event.MouseEvent evt) {                                           
+        // TODO add your handling code here:
+        JTable source = (JTable)evt.getSource();
+            int row = source.rowAtPoint( evt.getPoint() );
+            String s=(String) source.getModel().getValueAt(row, 0) + source.getModel().getValueAt(row, 1);
+            Bill(s);
+    } 
+ 
     public boolean removeBill() {
         // 환불된 영수증 삭제
-        String billbarcode = Bill_Barcode.getText();
-        if(db.delete_B(billbarcode))
+        if(db.delete_B(billcode))
         	return true;
         return false;
     }
@@ -297,6 +313,7 @@ public class GUI_refund extends javax.swing.JFrame {
         model = (DefaultTableModel) Search_Result.getModel();
         model.setNumRows(0);
         Bill_Barcode.setText("");
+        billcode="";
         Date date = new Date();
         jDateChooser1.setDate(date);
         jDateChooser2.setDate(date);
@@ -317,6 +334,7 @@ public class GUI_refund extends javax.swing.JFrame {
 
     public void Bill(String barcode) {
     	Bill_Text.setText("");
+    	billcode=barcode;
     	String header[] = {"상품명", "수량", "가격"};
         ArrayList<bill> a= db.search_B(barcode);
         contents=new String[a.size()][3];

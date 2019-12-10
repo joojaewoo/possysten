@@ -17,7 +17,15 @@ public class POSPanel extends JPanel {
 	int a; // a=1 바코드 a=2 개수 a=3 받은돈
 	String[] Str1 = { "선택취소", "전체취소", "결제" }; // SBtn
 	String[] Str2 = { "확인", "확인" }; // miniBtn
-
+	JTextField tf1 = new JTextField(30); // 가격 총액 출력
+	JTextField tf2 = new JTextField(30); // 받은 금액 입력
+	JTextField tf3 = new JTextField(30); // 거스름돈
+	JTextField bcode = new JTextField(8); // 바코드 입력창
+	JTextField cnt = new JTextField(2); // 수량 입력창
+	JTextField p_name = new JTextField(10);
+	JTextField p_price = new JTextField(8);
+	String[] T = new String[4];
+	String[] T2 = new String[2];
 	RoundButton[] SBtn = new RoundButton[4];
 	RoundButton[] menuBtn = new RoundButton[6];
 	RoundButton[] KBtn = new RoundButton[12];
@@ -106,20 +114,10 @@ public class POSPanel extends JPanel {
 	}
 
 	public POSPanel() {
-		JTextField tf1 = new JTextField(30); // 가격 총액 출력
-		JTextField tf2 = new JTextField(30); // 받은 금액 입력
-		JTextField tf3 = new JTextField(30); // 거스름돈
-		JTextField bcode = new JTextField(8); // 바코드 입력창
-		JTextField cnt = new JTextField(2); // 수량 입력창
-		JTextField p_name = new JTextField(10);
-		JTextField p_price = new JTextField(8);
 		String BARCODE; // 바코드
 		String CNT; // 수량
 		String MONEY; // 받은돈
 		JPanel jp = new JPanel();
-
-		String[] T = new String[4];
-		String[] T2 = new String[2];
 		JLabel label1 = new JLabel("바코드");
 		JLabel label2 = new JLabel("수량");
 		JLabel total = new JLabel("총 금액");
@@ -576,6 +574,7 @@ public class POSPanel extends JPanel {
 					p_name.setText(T2[0]);
 					p_price.setText(T2[1]);
 				} else {
+					JOptionPane.showMessageDialog(null, "바코드를 입력하세요");
 				}
 			}
 		});
@@ -583,11 +582,17 @@ public class POSPanel extends JPanel {
 		miniBtn[1].addActionListener(new ActionListener() { // 수량 확인 버튼
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(cnt.getText().contentEquals("")||Integer.parseInt(cnt.getText())<0) {
+					JOptionPane.showMessageDialog(null, "수량을 입력하세요.");
+				}
+				else {
 				int num = Integer.parseInt(cnt.getText());
 				if (Integer.parseInt(stock) < num) {
 					JOptionPane.showMessageDialog(null, "상품의 재고를 초과하였습니다. 재고 : " + stock);
 					cnt.setText(stock);
-				} else {
+				}
+				else if(!check_table(T2[0],Integer.toString(num),Integer.parseInt(T2[1]))) 
+				{
 					T[0] = T2[0];
 					T[1] = Integer.toString(num);
 					T[2] = category;
@@ -595,14 +600,21 @@ public class POSPanel extends JPanel {
 					model.addRow(T);
 					stock = "";
 					sum += Integer.parseInt(T[3]);
+				}
 					tf1.setText(String.valueOf(sum));
 					tf1.setFont(new Font("맑은고딕", Font.BOLD, 20));
+					if(!tf2.getText().contentEquals("")) {
+					int change = Integer.valueOf(tf2.getText()) - sum;
+					tf2.setText(tf2.getText());
+					tf3.setText(Integer.toString(change));
+					tf3.setFont(new Font("맑은고딕", Font.BOLD, 20));}
 					bcode.setText("");
 					cnt.setText("");
+					p_name.setText("");
+					p_price.setText("");
 					// model2.setNumRows(0);
-				}
 			}
-
+			}
 		});
 
 		SBtn[0].addActionListener(new ActionListener() { // 선택취소
@@ -615,6 +627,12 @@ public class POSPanel extends JPanel {
 							- Integer.parseInt((String) table.getModel().getValueAt(table.getSelectedRow(), 3));
 					tf1.setText(Integer.toString(sum));
 					m.removeRow(table.getSelectedRow());
+					if(!tf2.getText().contentEquals("")) {
+					 int change = Integer.parseInt(tf2.getText()) - sum;
+			            tf2.setText(tf2.getText());
+			            tf3.setText(Integer.toString(change));
+			            tf3.setFont(new Font("맑은고딕", Font.BOLD, 20));
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "선택하세요");
 				}
@@ -628,7 +646,8 @@ public class POSPanel extends JPanel {
 				DefaultTableModel m = (DefaultTableModel) table.getModel();
 				m.setRowCount(0);
 				sum = 0;
-				tf1.setText(String.valueOf(""));
+				tf1.setText("0");
+				tf3.setText(tf2.getText());
 			}
 		});
 
@@ -655,7 +674,26 @@ public class POSPanel extends JPanel {
 				tf1.setText("");
 				tf2.setText("");
 				tf3.setText("");
+				sum = 0;
 			}
 		});
+	}
+	boolean check_table(String name,String num,int price) {
+		for(int i=0;i<table.getRowCount();i++) {
+			if(name.contentEquals((String)table.getValueAt(i, 0))){
+				int n=Integer.parseInt((String)table.getValueAt(i,1))+Integer.parseInt(num);
+				int st=Integer.parseInt(stock)-Integer.parseInt((String)table.getValueAt(i,1));
+				if(Integer.parseInt(stock)<n) {
+					JOptionPane.showMessageDialog(null, "상품의 재고를 초과하였습니다. 재고 : " + st);
+				}
+				else {
+					table.setValueAt(Integer.toString(n), i, 1);
+					table.setValueAt(Integer.toString(n* price), i, 3);
+					sum+=Integer.parseInt(num)*price;
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 }

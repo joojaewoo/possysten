@@ -94,14 +94,13 @@ public class GUI_insert_product {
 						JOptionPane.showMessageDialog(null, "Error");
 					}
 				}
-				else {
-					JOptionPane.showMessageDialog(null, "Error");
-				}
 			}
 		};
 		button.addActionListener(listener);
 	}
 	public boolean check_information() {
+		if(Integer.parseInt(price.getText())<1000000)
+			chk_p=true;
 		if(barcode.getText().contentEquals("")){
 			JOptionPane.showMessageDialog(null, "바코드를 입력하세요");
 			return false;
@@ -110,8 +109,12 @@ public class GUI_insert_product {
 			JOptionPane.showMessageDialog(null, "상품명을 입력하세요");
 			return false;
 		}
-		else if(price.getText().contentEquals("")) {
-			JOptionPane.showMessageDialog(null, "가격을 입력하세요");
+		else if(db.search_L(barcode.getText())!=null) {
+			JOptionPane.showMessageDialog(null, "이미 존재하는 상품입니다");
+			return false;
+		}
+		else if(!GUI_stock_add.chk_num(price.getText())||Integer.parseInt(price.getText())<0) {
+			JOptionPane.showMessageDialog(null, "가격입력창을 확인하세요");
 			return false;
 		}
 		else if(Integer.parseInt(price.getText())>1000000&&!chk_p) {
@@ -121,8 +124,8 @@ public class GUI_insert_product {
 			}
 			return false;
 		}
-		else if(stock.getText().contentEquals("")) {
-			JOptionPane.showMessageDialog(null, "재고를 입력하세요");
+		else if(!GUI_stock_add.chk_num(stock.getText())&&Integer.parseInt(stock.getText())<0) {
+			JOptionPane.showMessageDialog(null, "재고입력창을 확인하세요");
 			return false;
 		}
 		else if(category.getText().contentEquals("")) {
@@ -130,6 +133,8 @@ public class GUI_insert_product {
 			return false;
 		}
 		else{
+			if(Integer.parseInt(price.getText())<1000000)
+				chk_p=true;
 			if(chk_p)
 				return true;
 			return false;
