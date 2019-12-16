@@ -241,7 +241,7 @@ public class POSPanel extends JPanel {
 		p_price.setFont(new Font("맑은고딕", Font.BOLD, 15));
 		p_price.setBorder(null);
 		jp.add(p_price);
-		
+
 		Mbtn.setSize(150, 380);
 		Mbtn.setLocation(50, 105);
 		add(Mbtn);
@@ -262,7 +262,7 @@ public class POSPanel extends JPanel {
 		loginBtn.setLocation(1015, 10);
 		loginBtn.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		add(loginBtn);
-		
+
 		// 키패드 1 ~ 0
 		KBtn[0].addActionListener(new ActionListener() {
 			@Override
@@ -487,23 +487,23 @@ public class POSPanel extends JPanel {
 				}
 			}
 		});
-//      KBtn[12].addActionListener(new ActionListener() {
-//          @Override
-//          public void actionPerformed(ActionEvent e) {
-//        	  if(a==1) {
-//        		  bcode.setText("");
-//        	  }
-//        	  else if(a==2) {
-//        		  cnt.setText("");
-//        	  }
-//        	  else if(a==3) {
-//        		  tf2.setText("");
-//        	  }
-//        	  else {
-//        		  JOptionPane.showMessageDialog(null, "선택하세요");
-//        	  }
-//          }
-//       });
+		//      KBtn[12].addActionListener(new ActionListener() {
+		//          @Override
+		//          public void actionPerformed(ActionEvent e) {
+		//        	  if(a==1) {
+		//        		  bcode.setText("");
+		//        	  }
+		//        	  else if(a==2) {
+		//        		  cnt.setText("");
+		//        	  }
+		//        	  else if(a==3) {
+		//        		  tf2.setText("");
+		//        	  }
+		//        	  else {
+		//        		  JOptionPane.showMessageDialog(null, "선택하세요");
+		//        	  }
+		//          }
+		//       });
 
 		menuBtn[0].addActionListener(new ActionListener() {
 
@@ -586,34 +586,30 @@ public class POSPanel extends JPanel {
 					JOptionPane.showMessageDialog(null, "수량을 입력하세요.");
 				}
 				else {
-				int num = Integer.parseInt(cnt.getText());
-				if (Integer.parseInt(stock) < num) {
-					JOptionPane.showMessageDialog(null, "상품의 재고를 초과하였습니다. 재고 : " + stock);
-					cnt.setText(stock);
+					int num = Integer.parseInt(cnt.getText());
+					if(!check_table(T2[0],Integer.toString(num),Integer.parseInt(T2[1]))) 
+						{
+							T[0] = T2[0];
+							T[1] = Integer.toString(num);
+							T[2] = category;
+							T[3] = Integer.toString(Integer.parseInt(T2[1]) * num);
+							model.addRow(T);
+							stock = "";
+							sum += Integer.parseInt(T[3]);
+						tf1.setText(String.valueOf(sum));
+						tf1.setFont(new Font("맑은고딕", Font.BOLD, 20));
+						if(!tf2.getText().contentEquals("")) {
+							int change = Integer.valueOf(tf2.getText()) - sum;
+							tf2.setText(tf2.getText());
+							tf3.setText(Integer.toString(change));
+							tf3.setFont(new Font("맑은고딕", Font.BOLD, 20));}
+						bcode.setText("");
+						cnt.setText("");
+						p_name.setText("");
+						p_price.setText("");
+						// model2.setNumRows(0);
+					}
 				}
-				else if(!check_table(T2[0],Integer.toString(num),Integer.parseInt(T2[1]))) 
-				{
-					T[0] = T2[0];
-					T[1] = Integer.toString(num);
-					T[2] = category;
-					T[3] = Integer.toString(Integer.parseInt(T2[1]) * num);
-					model.addRow(T);
-					stock = "";
-					sum += Integer.parseInt(T[3]);
-				}
-					tf1.setText(String.valueOf(sum));
-					tf1.setFont(new Font("맑은고딕", Font.BOLD, 20));
-					if(!tf2.getText().contentEquals("")) {
-					int change = Integer.valueOf(tf2.getText()) - sum;
-					tf2.setText(tf2.getText());
-					tf3.setText(Integer.toString(change));
-					tf3.setFont(new Font("맑은고딕", Font.BOLD, 20));}
-					bcode.setText("");
-					cnt.setText("");
-					p_name.setText("");
-					p_price.setText("");
-					// model2.setNumRows(0);
-			}
 			}
 		});
 
@@ -628,10 +624,10 @@ public class POSPanel extends JPanel {
 					tf1.setText(Integer.toString(sum));
 					m.removeRow(table.getSelectedRow());
 					if(!tf2.getText().contentEquals("")) {
-					 int change = Integer.parseInt(tf2.getText()) - sum;
-			            tf2.setText(tf2.getText());
-			            tf3.setText(Integer.toString(change));
-			            tf3.setFont(new Font("맑은고딕", Font.BOLD, 20));
+						int change = Integer.parseInt(tf2.getText()) - sum;
+						tf2.setText(tf2.getText());
+						tf3.setText(Integer.toString(change));
+						tf3.setFont(new Font("맑은고딕", Font.BOLD, 20));
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "선택하세요");
@@ -685,14 +681,31 @@ public class POSPanel extends JPanel {
 				int st=Integer.parseInt(stock)-Integer.parseInt((String)table.getValueAt(i,1));
 				if(Integer.parseInt(stock)<n) {
 					JOptionPane.showMessageDialog(null, "상품의 재고를 초과하였습니다. 재고 : " + st);
+					cnt.setText(Integer.toString(st));
 				}
 				else {
 					table.setValueAt(Integer.toString(n), i, 1);
 					table.setValueAt(Integer.toString(n* price), i, 3);
 					sum+=Integer.parseInt(num)*price;
+					tf1.setText(String.valueOf(sum));
+					tf1.setFont(new Font("맑은고딕", Font.BOLD, 20));
+					if(!tf2.getText().contentEquals("")) {
+						int change = Integer.valueOf(tf2.getText()) - sum;
+						tf2.setText(tf2.getText());
+						tf3.setText(Integer.toString(change));
+						tf3.setFont(new Font("맑은고딕", Font.BOLD, 20));}
+					bcode.setText("");
+					cnt.setText("");
+					p_name.setText("");
+					p_price.setText("");
 				}
 				return true;
 			}
+		}
+		if (Integer.parseInt(stock) < Integer.parseInt(num)) {
+			JOptionPane.showMessageDialog(null, "상품의 재고를 초과하였습니다. 재고 : " + stock);
+			cnt.setText(stock);
+			return true;
 		}
 		return false;
 	}

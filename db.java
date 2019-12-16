@@ -1,8 +1,7 @@
 package pos;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 
 public class db {
 	static Statement stmt;
@@ -10,9 +9,11 @@ public class db {
 	public db() {
         Connection conn = null;
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost/pos";
-            conn = DriverManager.getConnection(url, "root", "1234");
+//            Class.forName("com.mysql.jdbc.Driver");
+//            String url = "jdbc:mysql://localhost/pos";
+//            conn = DriverManager.getConnection(url, "root", "1234");
+        	Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@db.pknu.ac.kr:1521:xe", "db201512125","201512125");
             stmt = (Statement) conn.createStatement();
             System.out.println("연결 성공");
             }
@@ -47,7 +48,7 @@ public class db {
 //	        }
 	    }
 	 static public int loginchk(String id,String pwd) { //로그인 확인
-		 String sql= "select * from user where ID='"+id+"'and PWD='"+pwd+"'";
+		 String sql= "select * from clerk where ID='"+id+"'and PWD='"+pwd+"'";
 		 try {
 			rs=stmt.executeQuery(sql);
 			if(rs.next()) {

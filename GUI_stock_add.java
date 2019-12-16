@@ -75,7 +75,7 @@ public class GUI_stock_add {
 			JOptionPane.showMessageDialog(null, "상품명을 입력하세요");
 			return false;
 		}
-		else if(!chk_num(num.getText())&&Integer.parseInt(num.getText())<0) {
+		else if(!chk_num(num.getText())||Integer.parseInt(num.getText())<0||num.getText().contentEquals("")) {
 			JOptionPane.showMessageDialog(null, "수량을 확인하세요");
 			return false;
 		}
